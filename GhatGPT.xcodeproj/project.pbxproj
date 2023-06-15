@@ -7,23 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E224A842A39E2F900C15DE0 /* ChatGPTModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E224A832A39E2F900C15DE0 /* ChatGPTModel.swift */; };
 		7E3A7A8B2A39C9BA00FA7908 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A7A8A2A39C9BA00FA7908 /* AppDelegate.swift */; };
 		7E3A7A8D2A39C9BA00FA7908 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A7A8C2A39C9BA00FA7908 /* SceneDelegate.swift */; };
 		7E3A7A8F2A39C9BA00FA7908 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A7A8E2A39C9BA00FA7908 /* ViewController.swift */; };
-		7E3A7A922A39C9BA00FA7908 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E3A7A902A39C9BA00FA7908 /* Main.storyboard */; };
 		7E3A7A942A39C9BC00FA7908 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E3A7A932A39C9BC00FA7908 /* Assets.xcassets */; };
 		7E3A7A972A39C9BC00FA7908 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E3A7A952A39C9BC00FA7908 /* LaunchScreen.storyboard */; };
+		7E3A7AA02A39CBC200FA7908 /* ChatAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A7A9F2A39CBC200FA7908 /* ChatAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7E224A832A39E2F900C15DE0 /* ChatGPTModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGPTModel.swift; sourceTree = "<group>"; };
 		7E3A7A872A39C9BA00FA7908 /* GhatGPT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GhatGPT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E3A7A8A2A39C9BA00FA7908 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7E3A7A8C2A39C9BA00FA7908 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		7E3A7A8E2A39C9BA00FA7908 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		7E3A7A912A39C9BA00FA7908 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7E3A7A932A39C9BC00FA7908 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7E3A7A962A39C9BC00FA7908 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7E3A7A982A39C9BC00FA7908 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7E3A7A9F2A39CBC200FA7908 /* ChatAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +58,40 @@
 		7E3A7A892A39C9BA00FA7908 /* GhatGPT */ = {
 			isa = PBXGroup;
 			children = (
-				7E3A7A8A2A39C9BA00FA7908 /* AppDelegate.swift */,
-				7E3A7A8C2A39C9BA00FA7908 /* SceneDelegate.swift */,
+				7ED0E6722A3B1C3500F27D83 /* Application */,
 				7E3A7A8E2A39C9BA00FA7908 /* ViewController.swift */,
-				7E3A7A902A39C9BA00FA7908 /* Main.storyboard */,
-				7E3A7A932A39C9BC00FA7908 /* Assets.xcassets */,
-				7E3A7A952A39C9BC00FA7908 /* LaunchScreen.storyboard */,
 				7E3A7A982A39C9BC00FA7908 /* Info.plist */,
+				7ED0E6732A3B1C4500F27D83 /* Supporting files */,
+				7ED0E6712A3B1C2200F27D83 /* ChatGPTAPI */,
 			);
 			path = GhatGPT;
+			sourceTree = "<group>";
+		};
+		7ED0E6712A3B1C2200F27D83 /* ChatGPTAPI */ = {
+			isa = PBXGroup;
+			children = (
+				7E3A7A9F2A39CBC200FA7908 /* ChatAPI.swift */,
+				7E224A832A39E2F900C15DE0 /* ChatGPTModel.swift */,
+			);
+			path = ChatGPTAPI;
+			sourceTree = "<group>";
+		};
+		7ED0E6722A3B1C3500F27D83 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				7E3A7A8A2A39C9BA00FA7908 /* AppDelegate.swift */,
+				7E3A7A8C2A39C9BA00FA7908 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		7ED0E6732A3B1C4500F27D83 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				7E3A7A932A39C9BC00FA7908 /* Assets.xcassets */,
+				7E3A7A952A39C9BC00FA7908 /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +154,6 @@
 			files = (
 				7E3A7A972A39C9BC00FA7908 /* LaunchScreen.storyboard in Resources */,
 				7E3A7A942A39C9BC00FA7908 /* Assets.xcassets in Resources */,
-				7E3A7A922A39C9BA00FA7908 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,21 +166,15 @@
 			files = (
 				7E3A7A8F2A39C9BA00FA7908 /* ViewController.swift in Sources */,
 				7E3A7A8B2A39C9BA00FA7908 /* AppDelegate.swift in Sources */,
+				7E3A7AA02A39CBC200FA7908 /* ChatAPI.swift in Sources */,
 				7E3A7A8D2A39C9BA00FA7908 /* SceneDelegate.swift in Sources */,
+				7E224A842A39E2F900C15DE0 /* ChatGPTModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		7E3A7A902A39C9BA00FA7908 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7E3A7A912A39C9BA00FA7908 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		7E3A7A952A39C9BC00FA7908 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -292,7 +312,6 @@
 				INFOPLIST_FILE = GhatGPT/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -320,7 +339,6 @@
 				INFOPLIST_FILE = GhatGPT/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
