@@ -18,7 +18,7 @@ final class MessageTextField: UITextField {
     }
     
     private func configure() {
-        placeholder = "Entry your message here"
+        placeholder = "Text your message here"
         font = Resorces.Font.helveticaRegular(with: 17)
         textColor = .black
         backgroundColor = .white
@@ -27,7 +27,6 @@ final class MessageTextField: UITextField {
         textAlignment = .natural
         autocorrectionType = .no
         translatesAutoresizingMaskIntoConstraints = false
-        resignFirstResponder()
         
         let spacerView = UIView(frame:CGRect(x:0, y:0, width:10, height:10))
         leftViewMode = .always

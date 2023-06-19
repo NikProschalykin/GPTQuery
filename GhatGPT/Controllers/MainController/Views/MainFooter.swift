@@ -9,7 +9,7 @@ import UIKit
 
 final class MainFooter: BaseView {
     
-    private let textField = MessageTextField()
+    let textView = MessageTextView()
     private let sendButton = SendButton()
     
     override init(frame: CGRect) {
@@ -28,7 +28,7 @@ extension MainFooter {
         
         
         addSubview(sendButton)
-        addSubview(textField)
+        addSubview(textView)
         
     }
     override func layoutViews() {
@@ -36,10 +36,10 @@ extension MainFooter {
         
         NSLayoutConstraint.activate([
             
-            textField.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 16),
-            textField.bottomAnchor.constraint(equalTo: bottomAnchor),
-            textField.heightAnchor.constraint(equalToConstant: 40),
-            textField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -8),
+            textView.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 16),
+            textView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            textView.heightAnchor.constraint(equalToConstant: 40),
+            textView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -8),
             
             sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             sendButton.bottomAnchor.constraint(equalTo: bottomAnchor),

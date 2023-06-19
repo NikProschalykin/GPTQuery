@@ -66,7 +66,7 @@ class ChatAPI {
     private func jsonBody(text: String, stream: Bool = true) throws -> Data {
         let request = Request(model: model,
                               temperature: temperature,
-                              message: generateMessage(from: text),
+                              messages: generateMessage(from: text),
                               stream: stream)
         return try JSONEncoder().encode(request)
     }
