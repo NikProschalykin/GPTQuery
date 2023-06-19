@@ -20,9 +20,12 @@ final class MessageTextView: UITextView {
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
         font = Resorces.Font.helveticaRegular(with: 17)
-        backgroundColor = .white
+        backgroundColor = .systemGray4
         textColor = .black
         autocorrectionType = .no
-        
+        text = "Message"
+        textColor = UIColor.lightGray
     }
 }
+
+

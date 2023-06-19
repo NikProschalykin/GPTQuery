@@ -11,6 +11,7 @@ final class MessageCell: UICollectionViewCell {
     
     private let contentCellView = BaseView()
     private let label = MessageLabel()
+    private var author: Resorces.Authors?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,15 +27,28 @@ final class MessageCell: UICollectionViewCell {
         label.text = nil
     }
     
-    public func setupCell(text: String) {
-        label.text = text
+    public func setupCell(text: String?,author: Resorces.Authors) {
+        self.author = author
+        
+        switch author {
+        case .user:
+            backgroundColor = .systemBlue
+            label.text = "[user] \(text!)"
+        
+        case .assistant:
+            backgroundColor = .systemGreen
+            label.text = "[assistant] \(text!)"
+        }
+        
     }
 }
 
 extension MessageCell {
     
     private func configure() {
-        backgroundColor = .green
+        
+        
+        
         addViews()
         layout()
     }

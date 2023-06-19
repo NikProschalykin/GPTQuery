@@ -27,23 +27,42 @@ final class ChatCollection: UICollectionView {
         dataSource = self
         delegate = self
     }
+    
+    //MARK: - Расчет размера ячейки
+    private func calculateSize(to indexPath: IndexPath) -> CGSize {
+        var text: String = ""
+        switch indexPath.item {
+        case 0: text = ChatController.responseList[indexPath.section].0
+        case 1: text = ChatController.responseList[indexPath.section].1
+        default: break
+        }
+        let height = (text.heightWithConstrainedWidth(width: UIScreen.main.bounds.width, font: Resorces.Font.helveticaRegular(with: 17)))
+        print(height)
+        return CGSize(width: UIScreen.main.bounds.width, height: height + 32)
+    }
 }
 
 //MARK: - DATA SOURCE
 extension ChatCollection: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        ViewController.textModels.count
+        ChatController.responseList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        1
+        2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MessageCell.identifier, for: indexPath) as! MessageCell
         
-        cell.setupCell(text: ViewController.textModels[indexPath.section])
+        
+        if indexPath.item == 0 {
+            cell.setupCell(text: ChatController.responseList[indexPath.section].0, author: .user)
+        } else {
+            cell.setupCell(text: ChatController.responseList[indexPath.section].1, author: .assistant)
+        }
+        
         
         return cell
     }
@@ -57,9 +76,9 @@ extension ChatCollection: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: UIScreen.main.bounds.width-16, height: 200)
+        calculateSize(to: indexPath)
     }
     
-    
-
 }
+
+

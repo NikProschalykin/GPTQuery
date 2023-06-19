@@ -1,14 +1,13 @@
 //
-//  MessageLabel.swift
+//  StartMessage.swift
 //  GhatGPT
 //
-//  Created by Николай Прощалыкин on 16.06.2023.
+//  Created by Николай Прощалыкин on 19.06.2023.
 //
 
 import UIKit
 
-final class MessageLabel: UILabel {
-    
+final class StartMessage: UILabel {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -20,11 +19,14 @@ final class MessageLabel: UILabel {
     
 }
 
-extension MessageLabel {
+extension StartMessage {
     private func configure() {
-        textColor = .black
+        textColor = .systemGray4
+        text = "Hi, I'm your chatGPT assistant. Let's start chatting! Enter your first message"
         translatesAutoresizingMaskIntoConstraints = false
-        font = Resorces.Font.helveticaRegular(with: 17)
+        font = Resorces.Font.helveticaRegular(with: 20)
         numberOfLines = 0
+        
     }
 }
+

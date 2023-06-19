@@ -10,11 +10,11 @@ import UIKit
 final class MainFooter: BaseView {
     
     let textView = MessageTextView()
-    private let sendButton = SendButton()
+    let sendButton = SendButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .red
+        //backgroundColor = .red
     }
     
     required init?(coder: NSCoder) {
@@ -23,6 +23,14 @@ final class MainFooter: BaseView {
 }
 
 extension MainFooter {
+    
+    override func configure() {
+        super.configure()
+        
+        backgroundColor = .systemGray6
+        textView.delegate = sendButton.self
+    }
+    
     override func addViews() {
         super.addViews()
         
@@ -36,6 +44,7 @@ extension MainFooter {
         
         NSLayoutConstraint.activate([
             
+            textView.topAnchor.constraint(equalTo: topAnchor),
             textView.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 16),
             textView.bottomAnchor.constraint(equalTo: bottomAnchor),
             textView.heightAnchor.constraint(equalToConstant: 40),
@@ -48,5 +57,6 @@ extension MainFooter {
         
         ])
     }
-    
 }
+
+

@@ -29,10 +29,16 @@ import UIKit
 
 // MARK: - VIEWCONTROLLER
 
-class ViewController: BaseController {
+class ChatController: BaseController {
+    
+    //MARK: - Layout properties
+    
+    var heightFooter = NSLayoutConstraint()
+    
     
     //MARK: - PROPERTIES
-    public static var textModels = TextModel.makeMockModel()
+    //public static var textModels = TextModel.makeMockModel()
+    public static var responseList = [(String,String)]()
     
     static var apiKey = "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"//"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"
     private let notificationCenter = NotificationCenter.default
@@ -40,6 +46,7 @@ class ViewController: BaseController {
     private let contentView = BaseView()
     private let scrollView = ViewControllerScrollView()
     private let footer = MainFooter()
+    private let startLabel = StartMessage()
     
     private let layout = ChatCollectionLayout()
     private lazy var collectionView = ChatCollection(frame: .zero, collectionViewLayout: layout)
@@ -68,30 +75,11 @@ class ViewController: BaseController {
 //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        Task {
-            let api = ChatAPI(apiKey: ViewController.apiKey)
-            do {
-//                //потоковый
-//                let stream = try await api.sendMessageStream(text: "What is James Bond")
-//                for try await line in stream {
-//                    print(line)
-//                }
-                
-                                //непотоковый
-                                let text = try await api.sendMessage("What sun is?")
-                                print(text)
-                            } catch {
-                                print(error.localizedDescription)
-            }
-        }
     }
 //MARK: - CONFIGURE
     override func configure() {
         super.configure()
-        contentView.backgroundColor = .blue
-        collectionView.reloadData()
-    
+        footer.sendButton.chatVC = self
     }
 //MARK: - ADD VIEWS
     override func addViews() {
@@ -101,14 +89,16 @@ class ViewController: BaseController {
         scrollView.addSubview(contentView)
         contentView.addSubview(footer)
         contentView.addSubview(collectionView)
+        contentView.addSubview(startLabel)
         
         view.addGestureRecognizer(tapGesture)
-        
     }
-    
 //MARK: - LAYOUT
     override func layoutViews() {
         super.layoutViews()
+        
+        heightFooter = footer.heightAnchor.constraint(equalToConstant: 40)
+        
         NSLayoutConstraint.activate([
             
             //scrollView
@@ -131,18 +121,23 @@ class ViewController: BaseController {
             collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: footer.topAnchor, constant: -8),
             
+            //startLabel
+            startLabel.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 100),
+            startLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 50),
+            startLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -50),
+            startLabel.bottomAnchor.constraint(equalTo: footer.topAnchor,constant: -50),
             
             //footer
             footer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             footer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             footer.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor),
-            footer.heightAnchor.constraint(equalToConstant: 40)
+            heightFooter,
             ])
     }
 }
 
 //MARK: - extension
-@objc extension ViewController {
+@objc extension ChatController {
     
     //MARK: - keyBoardShow
     private func keyBoardShow(notification: NSNotification){
@@ -156,8 +151,26 @@ class ViewController: BaseController {
         scrollView.setContentOffset(.zero, animated: true)
     }
     
-    private func hideKeyboard() {
+    public func hideKeyboard() {
         view.endEditing(true)
-
     }
 }
+
+//MARK: - Funcs for sendButton
+extension ChatController {
+    func reloadColectionView() {
+        collectionView.reloadData()
+    }
+    func deleteTextInTextView() {
+        footer.textView.text = "Message"
+        footer.textView.textColor = UIColor.lightGray
+    }
+    func moveToLastCell() {
+        collectionView.scrollToLast()
+    }
+    func hideStartLabel() {
+        startLabel.isHidden = true
+    }
+}
+
+
