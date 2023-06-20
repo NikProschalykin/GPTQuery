@@ -13,8 +13,11 @@ enum Resorces {
         static var inactive = UIColor(hexString: "#929DA5")
         
         static var background = UIColor.systemBackground
-        static var separator = UIColor(hexString: "#E8ECEF")
-        static var titleGray = UIColor(hexString: "#545C77")
+        static var backgroundGray = UIColor.systemGray5
+        static var separator = UIColor.systemGray3
+        
+        static var titleLabel = UIColor.label
+        static var titleSecondaryLabel = UIColor.secondaryLabel
     }
     enum Font {
         static func helveticaRegular(with size: CGFloat) -> UIFont {

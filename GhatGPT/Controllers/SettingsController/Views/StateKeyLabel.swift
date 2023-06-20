@@ -1,13 +1,13 @@
 //
-//  StartMessage.swift
+//  StateKeyLabel.swift
 //  GhatGPT
 //
-//  Created by Николай Прощалыкин on 19.06.2023.
+//  Created by Николай Прощалыкин on 20.06.2023.
 //
 
 import UIKit
 
-final class StartMessage: UILabel {
+final class StateKeyLabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -16,17 +16,15 @@ final class StartMessage: UILabel {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
-extension StartMessage {
+
+extension StateKeyLabel {
     private func configure() {
         textColor = Resorces.Colors.titleSecondaryLabel
-        text = "Hi, I'm your chatGPT assistant. Let's start chatting! Enter your first message"
+        text = "API Key: "
         translatesAutoresizingMaskIntoConstraints = false
-        font = Resorces.Font.helveticaRegular(with: 20)
-        numberOfLines = 0
-        
+        font = Resorces.Font.helveticaRegular(with: 17)
+        numberOfLines = 1
     }
 }
-

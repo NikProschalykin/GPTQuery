@@ -17,6 +17,12 @@
 		7E43EFF72A4081E700978724 /* UICollectionView + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E43EFF62A4081E700978724 /* UICollectionView + ext.swift */; };
 		7E43EFF92A40A38100978724 /* String + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E43EFF82A40A38100978724 /* String + ext.swift */; };
 		7E43EFFB2A40A57800978724 /* StartMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E43EFFA2A40A57800978724 /* StartMessage.swift */; };
+		7E9A02CF2A41DAA300BA49FD /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02CE2A41DAA300BA49FD /* SettingsController.swift */; };
+		7E9A02D22A41DC7600BA49FD /* SendTypeSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02D12A41DC7600BA49FD /* SendTypeSwitch.swift */; };
+		7E9A02D42A41DD1A00BA49FD /* SwitchLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02D32A41DD1A00BA49FD /* SwitchLabel.swift */; };
+		7E9A02D62A41E35E00BA49FD /* KeyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02D52A41E35E00BA49FD /* KeyLabel.swift */; };
+		7E9A02D82A41E50000BA49FD /* SetupKeyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02D72A41E50000BA49FD /* SetupKeyButton.swift */; };
+		7E9A02DA2A41F07F00BA49FD /* StateKeyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02D92A41F07F00BA49FD /* StateKeyLabel.swift */; };
 		7ED0E6782A3B20AC00F27D83 /* UIView + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0E6772A3B20AC00F27D83 /* UIView + ext.swift */; };
 		7ED0E67A2A3B221D00F27D83 /* BaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0E6792A3B221D00F27D83 /* BaseController.swift */; };
 		7ED0E67C2A3B226300F27D83 /* UIColor + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0E67B2A3B226300F27D83 /* UIColor + ext.swift */; };
@@ -46,6 +52,12 @@
 		7E43EFF62A4081E700978724 /* UICollectionView + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView + ext.swift"; sourceTree = "<group>"; };
 		7E43EFF82A40A38100978724 /* String + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + ext.swift"; sourceTree = "<group>"; };
 		7E43EFFA2A40A57800978724 /* StartMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartMessage.swift; sourceTree = "<group>"; };
+		7E9A02CE2A41DAA300BA49FD /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		7E9A02D12A41DC7600BA49FD /* SendTypeSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTypeSwitch.swift; sourceTree = "<group>"; };
+		7E9A02D32A41DD1A00BA49FD /* SwitchLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchLabel.swift; sourceTree = "<group>"; };
+		7E9A02D52A41E35E00BA49FD /* KeyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyLabel.swift; sourceTree = "<group>"; };
+		7E9A02D72A41E50000BA49FD /* SetupKeyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupKeyButton.swift; sourceTree = "<group>"; };
+		7E9A02D92A41F07F00BA49FD /* StateKeyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateKeyLabel.swift; sourceTree = "<group>"; };
 		7ED0E6772A3B20AC00F27D83 /* UIView + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + ext.swift"; sourceTree = "<group>"; };
 		7ED0E6792A3B221D00F27D83 /* BaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseController.swift; sourceTree = "<group>"; };
 		7ED0E67B2A3B226300F27D83 /* UIColor + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + ext.swift"; sourceTree = "<group>"; };
@@ -104,6 +116,27 @@
 			path = GhatGPT;
 			sourceTree = "<group>";
 		};
+		7E9A02D02A41DAA700BA49FD /* SettingsController */ = {
+			isa = PBXGroup;
+			children = (
+				7E9A02CE2A41DAA300BA49FD /* SettingsController.swift */,
+				7E9A02DB2A41F50300BA49FD /* Views */,
+			);
+			path = SettingsController;
+			sourceTree = "<group>";
+		};
+		7E9A02DB2A41F50300BA49FD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7E9A02D12A41DC7600BA49FD /* SendTypeSwitch.swift */,
+				7E9A02D32A41DD1A00BA49FD /* SwitchLabel.swift */,
+				7E9A02D52A41E35E00BA49FD /* KeyLabel.swift */,
+				7E9A02D92A41F07F00BA49FD /* StateKeyLabel.swift */,
+				7E9A02D72A41E50000BA49FD /* SetupKeyButton.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		7ED0E6712A3B1C2200F27D83 /* ChatGPTAPI */ = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +167,7 @@
 		7ED0E6742A3B1E3500F27D83 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7E9A02D02A41DAA700BA49FD /* SettingsController */,
 				7ED0E6752A3B1E3D00F27D83 /* MainController */,
 			);
 			path = Controllers;
@@ -281,9 +315,13 @@
 			files = (
 				7E3A7A8F2A39C9BA00FA7908 /* ChatController.swift in Sources */,
 				7ED0E6A02A3C6E8800F27D83 /* ChatCollectionLayout.swift in Sources */,
+				7E9A02D62A41E35E00BA49FD /* KeyLabel.swift in Sources */,
 				7ED0E68C2A3B463E00F27D83 /* ViewControllerScrollView.swift in Sources */,
+				7E9A02DA2A41F07F00BA49FD /* StateKeyLabel.swift in Sources */,
 				7E3A7A8B2A39C9BA00FA7908 /* AppDelegate.swift in Sources */,
+				7E9A02D42A41DD1A00BA49FD /* SwitchLabel.swift in Sources */,
 				7ED0E67A2A3B221D00F27D83 /* BaseController.swift in Sources */,
+				7E9A02D22A41DC7600BA49FD /* SendTypeSwitch.swift in Sources */,
 				7ED0E6952A3C4A8800F27D83 /* MessageTextView.swift in Sources */,
 				7ED0E6862A3B30C800F27D83 /* NavBarController.swift in Sources */,
 				7ED0E6812A3B240E00F27D83 /* Resorces.swift in Sources */,
@@ -293,12 +331,14 @@
 				7E43EFF92A40A38100978724 /* String + ext.swift in Sources */,
 				7E3A7A8D2A39C9BA00FA7908 /* SceneDelegate.swift in Sources */,
 				7ED0E68E2A3B46FB00F27D83 /* SendButton.swift in Sources */,
+				7E9A02D82A41E50000BA49FD /* SetupKeyButton.swift in Sources */,
 				7E43EFFB2A40A57800978724 /* StartMessage.swift in Sources */,
 				7E224A842A39E2F900C15DE0 /* ChatGPTModel.swift in Sources */,
 				7ED0E6832A3B274F00F27D83 /* BaseView.swift in Sources */,
 				7ED0E6782A3B20AC00F27D83 /* UIView + ext.swift in Sources */,
 				7E43EFF72A4081E700978724 /* UICollectionView + ext.swift in Sources */,
 				7ED0E6992A3C5C9300F27D83 /* MessageCell.swift in Sources */,
+				7E9A02CF2A41DAA300BA49FD /* SettingsController.swift in Sources */,
 				7ED0E67C2A3B226300F27D83 /* UIColor + ext.swift in Sources */,
 				7ED0E6922A3B4FFC00F27D83 /* MainFooter.swift in Sources */,
 			);
@@ -444,8 +484,8 @@
 				INFOPLIST_FILE = GhatGPT/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -471,8 +511,8 @@
 				INFOPLIST_FILE = GhatGPT/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

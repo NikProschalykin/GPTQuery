@@ -11,6 +11,7 @@ final class SendButton: UIButton {
     
     weak public var chatVC: ChatController?
     private var message: String?
+    let api = ChatAPI(apiKey: ChatController.apiKey) //РАЗОБРАТЬСЯ КУДА ЗАСУНУТЬ
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,12 +24,15 @@ final class SendButton: UIButton {
     
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        setBackgroundImage(UIImage(systemName: "paperplane"), for: .normal)
+        isEnabled = false
+        setBackgroundImage(UIImage(systemName: "arrow.up.circle.fill"), for: .normal)
         imageView?.contentMode = .scaleAspectFit
         tintColor = .systemGreen
+        makeSystem(self)
         addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
     }
 }
+
 @objc extension SendButton {
     func buttonAction() {
         print("tapped")
@@ -36,7 +40,6 @@ final class SendButton: UIButton {
         chatVC?.deleteTextInTextView()
         chatVC?.hideStartLabel()
         Task {
-            let api = ChatAPI(apiKey: ChatController.apiKey)
             do {
                         //потоковый
                 let stream = try await api.sendMessageStream(text: message!)
@@ -44,7 +47,7 @@ final class SendButton: UIButton {
                 chatVC?.moveToLastCell()
                 var text = ""
                 for try await line in stream {
-                    print(line)
+                    print(line,terminator: "")
                     text += line
                     ChatController.responseList[ChatController.responseList.count-1] = (message!,text)
                     chatVC?.reloadColectionView()
@@ -57,23 +60,35 @@ final class SendButton: UIButton {
 //                chatVC?.deleteTextInTextView()
 //                ChatController.responseList.append((message!,text))
 //                chatVC?.reloadColectionView()
-                chatVC?.moveToLastCell()
+//                chatVC?.moveToLastCell()
+                
                 message = ""
             } catch {
                 print(error.localizedDescription)
             }
         }
+        self.isEnabled = false
     }
 }
 
 //MARK: - Ввод текста + увеличение TextView от контента
 extension SendButton: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        guard textView.text.count > 1 else { return }
-        message = textView.text!
-        print(textView.contentSize.height)
-        if textView.contentSize.height > 40 { chatVC?.heightFooter.constant = textView.contentSize.height }
-        else { chatVC?.heightFooter.constant = 40 }
+        message = textView.text
+
+        !textView.text.isBlank ? (self.isEnabled = true) : (self.isEnabled = false)
+        print(textView.text.isBlank)
+        
+        switch textView.contentSize.height {
+        case 56..<388:
+            chatVC?.heightFooter.constant = textView.contentSize.height
+        case 388...:
+            chatVC?.heightFooter.constant = 388
+        default:
+            chatVC?.heightFooter.constant = 45
+        }
+        
+        //print(textView.contentSize.height)
         chatVC?.view.layoutIfNeeded()
     }
 }
@@ -83,11 +98,13 @@ extension SendButton {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
-            textView.textColor = UIColor.black
+            textView.textColor = Resorces.Colors.titleLabel
         }
+        
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
+        textView.text.isBlank ? (self.isEnabled = false) : (self.isEnabled = true)
         if textView.text.isEmpty {
             textView.text = "Message"
             textView.textColor = UIColor.lightGray

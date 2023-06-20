@@ -21,10 +21,10 @@ final class MessageTextView: UITextView {
         translatesAutoresizingMaskIntoConstraints = false
         font = Resorces.Font.helveticaRegular(with: 17)
         backgroundColor = .systemGray4
-        textColor = .black
         autocorrectionType = .no
         text = "Message"
         textColor = UIColor.lightGray
+        layer.cornerRadius = 10
     }
 }
 

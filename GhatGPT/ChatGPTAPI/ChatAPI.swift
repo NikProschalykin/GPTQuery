@@ -87,7 +87,8 @@ class ChatAPI {
                         errorText += line
                     }
                     
-                    if let data = errorText.data(using: .utf8), let errorResponse = try? jsonDecoder.decode(ErrorRootResponse.self, from: data).error {
+                    if let data = errorText.data(using: .utf8), let errorResponse = try?
+                        jsonDecoder.decode(ErrorRootResponse.self, from: data).error {
                         errorText = "\n\(errorResponse.message)"
                     }
                     

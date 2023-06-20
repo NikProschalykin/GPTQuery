@@ -29,7 +29,7 @@ import UIKit
 
 // MARK: - VIEWCONTROLLER
 
-class ChatController: BaseController {
+final class ChatController: BaseController {
     
     //MARK: - Layout properties
     
@@ -75,10 +75,13 @@ class ChatController: BaseController {
 //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        addNavBarButton(at: .left, with: "settings")
+        addNavBarButton(at: .right, with: "clear")
     }
 //MARK: - CONFIGURE
     override func configure() {
         super.configure()
+        title = "Today"
         footer.sendButton.chatVC = self
     }
 //MARK: - ADD VIEWS
@@ -97,7 +100,7 @@ class ChatController: BaseController {
     override func layoutViews() {
         super.layoutViews()
         
-        heightFooter = footer.heightAnchor.constraint(equalToConstant: 40)
+        heightFooter = footer.heightAnchor.constraint(equalToConstant: 45)
         
         NSLayoutConstraint.activate([
             
@@ -130,7 +133,7 @@ class ChatController: BaseController {
             //footer
             footer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             footer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            footer.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor),
+            footer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             heightFooter,
             ])
     }
@@ -142,7 +145,7 @@ class ChatController: BaseController {
     //MARK: - keyBoardShow
     private func keyBoardShow(notification: NSNotification){
         if let keyBoardSize: CGRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            scrollView.setContentOffset(CGPoint(x: 0, y: keyBoardSize.height), animated: true)
+            scrollView.setContentOffset(CGPoint(x: 0, y: keyBoardSize.height-31), animated: true)
         }
     }
     
@@ -151,6 +154,7 @@ class ChatController: BaseController {
         scrollView.setContentOffset(.zero, animated: true)
     }
     
+    //MARK: - hideKeyBoard
     public func hideKeyboard() {
         view.endEditing(true)
     }
@@ -173,4 +177,9 @@ extension ChatController {
     }
 }
 
-
+extension ChatController {
+    override func navBarLeftButtonHandler() {
+        super.navBarLeftButtonHandler()
+        present(SettingsController(), animated: true)
+    }
+}

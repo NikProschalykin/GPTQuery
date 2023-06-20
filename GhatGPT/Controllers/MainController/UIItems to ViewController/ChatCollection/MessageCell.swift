@@ -39,15 +39,13 @@ final class MessageCell: UICollectionViewCell {
             backgroundColor = .systemGreen
             label.text = "[assistant] \(text!)"
         }
-        
     }
 }
 
 extension MessageCell {
     
     private func configure() {
-        
-        
+        layer.cornerRadius = 10
         
         addViews()
         layout()
@@ -59,12 +57,10 @@ extension MessageCell {
     
     private func layout() {
         NSLayoutConstraint.activate([
-            
-            label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            label.topAnchor.constraint(equalTo: contentView.topAnchor),
-            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            
+            label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 2),
+            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -2),
+            label.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 2),
+            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -2),
         ])
     }
     

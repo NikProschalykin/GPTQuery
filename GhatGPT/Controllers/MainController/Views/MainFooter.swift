@@ -15,6 +15,7 @@ final class MainFooter: BaseView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         //backgroundColor = .red
+        print(sendButton.alpha)
     }
     
     required init?(coder: NSCoder) {
@@ -27,8 +28,9 @@ extension MainFooter {
     override func configure() {
         super.configure()
         
-        backgroundColor = .systemGray6
+        backgroundColor = .systemGray5
         textView.delegate = sendButton.self
+        addSeparator(at: .top, color: Resorces.Colors.separator,weight: 1)
     }
     
     override func addViews() {
@@ -44,16 +46,15 @@ extension MainFooter {
         
         NSLayoutConstraint.activate([
             
-            textView.topAnchor.constraint(equalTo: topAnchor),
-            textView.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 16),
+            textView.topAnchor.constraint(equalTo: topAnchor,constant: 8),
+            textView.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 8),
             textView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            textView.heightAnchor.constraint(equalToConstant: 40),
             textView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -8),
             
-            sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
             sendButton.bottomAnchor.constraint(equalTo: bottomAnchor),
-            sendButton.widthAnchor.constraint(equalToConstant: 40),
-            sendButton.heightAnchor.constraint(equalToConstant: 40),
+            sendButton.widthAnchor.constraint(equalToConstant: 35),
+            sendButton.heightAnchor.constraint(equalToConstant: 35),
         
         ])
     }

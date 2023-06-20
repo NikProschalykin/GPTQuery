@@ -37,8 +37,8 @@ final class ChatCollection: UICollectionView {
         default: break
         }
         let height = (text.heightWithConstrainedWidth(width: UIScreen.main.bounds.width, font: Resorces.Font.helveticaRegular(with: 17)))
-        print(height)
-        return CGSize(width: UIScreen.main.bounds.width, height: height + 32)
+        //print(height)
+        return CGSize(width: UIScreen.main.bounds.width - 16, height: height + 32)
     }
 }
 
@@ -56,13 +56,11 @@ extension ChatCollection: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MessageCell.identifier, for: indexPath) as! MessageCell
         
-        
         if indexPath.item == 0 {
             cell.setupCell(text: ChatController.responseList[indexPath.section].0, author: .user)
         } else {
             cell.setupCell(text: ChatController.responseList[indexPath.section].1, author: .assistant)
         }
-        
         
         return cell
     }
@@ -78,7 +76,6 @@ extension ChatCollection: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         calculateSize(to: indexPath)
     }
-    
 }
 
 

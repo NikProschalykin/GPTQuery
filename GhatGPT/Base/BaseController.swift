@@ -27,7 +27,7 @@ class BaseController: UIViewController {
     func layoutViews() {}
     
     func configure() {
-        view.backgroundColor = Resorces.Colors.background
+        view.backgroundColor = Resorces.Colors.backgroundGray
     }
     
     func navBarLeftButtonHandler() {
@@ -52,7 +52,7 @@ extension BaseController {
             navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
         case .right:
             button.addTarget(self, action: #selector(navBarRightButtonHandler), for: .touchUpInside)
-            self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
         }
     }
 }
