@@ -14,6 +14,7 @@ enum Resorces {
         
         static var background = UIColor.systemBackground
         static var backgroundGray = UIColor.systemGray5
+        static var settingsBlocksBackground = UIColor.systemGroupedBackground
         static var separator = UIColor.systemGray3
         
         static var titleLabel = UIColor.label

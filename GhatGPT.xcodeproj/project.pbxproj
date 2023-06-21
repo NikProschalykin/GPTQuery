@@ -23,6 +23,9 @@
 		7E9A02D62A41E35E00BA49FD /* KeyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02D52A41E35E00BA49FD /* KeyLabel.swift */; };
 		7E9A02D82A41E50000BA49FD /* SetupKeyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02D72A41E50000BA49FD /* SetupKeyButton.swift */; };
 		7E9A02DA2A41F07F00BA49FD /* StateKeyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02D92A41F07F00BA49FD /* StateKeyLabel.swift */; };
+		7E9A02DF2A43086E00BA49FD /* DisplayBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02DE2A43086E00BA49FD /* DisplayBlock.swift */; };
+		7E9A02E32A43135300BA49FD /* ApiKeyBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02E22A43135300BA49FD /* ApiKeyBlock.swift */; };
+		7E9A02E52A433C9500BA49FD /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02E42A433C9500BA49FD /* Settings.swift */; };
 		7ED0E6782A3B20AC00F27D83 /* UIView + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0E6772A3B20AC00F27D83 /* UIView + ext.swift */; };
 		7ED0E67A2A3B221D00F27D83 /* BaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0E6792A3B221D00F27D83 /* BaseController.swift */; };
 		7ED0E67C2A3B226300F27D83 /* UIColor + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0E67B2A3B226300F27D83 /* UIColor + ext.swift */; };
@@ -58,6 +61,9 @@
 		7E9A02D52A41E35E00BA49FD /* KeyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyLabel.swift; sourceTree = "<group>"; };
 		7E9A02D72A41E50000BA49FD /* SetupKeyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupKeyButton.swift; sourceTree = "<group>"; };
 		7E9A02D92A41F07F00BA49FD /* StateKeyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateKeyLabel.swift; sourceTree = "<group>"; };
+		7E9A02DE2A43086E00BA49FD /* DisplayBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayBlock.swift; sourceTree = "<group>"; };
+		7E9A02E22A43135300BA49FD /* ApiKeyBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeyBlock.swift; sourceTree = "<group>"; };
+		7E9A02E42A433C9500BA49FD /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		7ED0E6772A3B20AC00F27D83 /* UIView + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + ext.swift"; sourceTree = "<group>"; };
 		7ED0E6792A3B221D00F27D83 /* BaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseController.swift; sourceTree = "<group>"; };
 		7ED0E67B2A3B226300F27D83 /* UIColor + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + ext.swift"; sourceTree = "<group>"; };
@@ -128,13 +134,31 @@
 		7E9A02DB2A41F50300BA49FD /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7E9A02E12A43133600BA49FD /* API Key block */,
+				7E9A02E02A43087200BA49FD /* DisplayBlock */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		7E9A02E02A43087200BA49FD /* DisplayBlock */ = {
+			isa = PBXGroup;
+			children = (
 				7E9A02D12A41DC7600BA49FD /* SendTypeSwitch.swift */,
 				7E9A02D32A41DD1A00BA49FD /* SwitchLabel.swift */,
+				7E9A02DE2A43086E00BA49FD /* DisplayBlock.swift */,
+			);
+			path = DisplayBlock;
+			sourceTree = "<group>";
+		};
+		7E9A02E12A43133600BA49FD /* API Key block */ = {
+			isa = PBXGroup;
+			children = (
 				7E9A02D52A41E35E00BA49FD /* KeyLabel.swift */,
 				7E9A02D92A41F07F00BA49FD /* StateKeyLabel.swift */,
 				7E9A02D72A41E50000BA49FD /* SetupKeyButton.swift */,
+				7E9A02E22A43135300BA49FD /* ApiKeyBlock.swift */,
 			);
-			path = Views;
+			path = "API Key block";
 			sourceTree = "<group>";
 		};
 		7ED0E6712A3B1C2200F27D83 /* ChatGPTAPI */ = {
@@ -218,6 +242,7 @@
 				7ED0E6822A3B274F00F27D83 /* BaseView.swift */,
 				7ED0E6792A3B221D00F27D83 /* BaseController.swift */,
 				7ED0E6852A3B30C800F27D83 /* NavBarController.swift */,
+				7E9A02E42A433C9500BA49FD /* Settings.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -317,6 +342,7 @@
 				7ED0E6A02A3C6E8800F27D83 /* ChatCollectionLayout.swift in Sources */,
 				7E9A02D62A41E35E00BA49FD /* KeyLabel.swift in Sources */,
 				7ED0E68C2A3B463E00F27D83 /* ViewControllerScrollView.swift in Sources */,
+				7E9A02DF2A43086E00BA49FD /* DisplayBlock.swift in Sources */,
 				7E9A02DA2A41F07F00BA49FD /* StateKeyLabel.swift in Sources */,
 				7E3A7A8B2A39C9BA00FA7908 /* AppDelegate.swift in Sources */,
 				7E9A02D42A41DD1A00BA49FD /* SwitchLabel.swift in Sources */,
@@ -328,6 +354,7 @@
 				7E3A7AA02A39CBC200FA7908 /* ChatAPI.swift in Sources */,
 				7ED0E6972A3C57DC00F27D83 /* ChatCollection.swift in Sources */,
 				7ED0E69C2A3C5F5E00F27D83 /* MessageLabel.swift in Sources */,
+				7E9A02E52A433C9500BA49FD /* Settings.swift in Sources */,
 				7E43EFF92A40A38100978724 /* String + ext.swift in Sources */,
 				7E3A7A8D2A39C9BA00FA7908 /* SceneDelegate.swift in Sources */,
 				7ED0E68E2A3B46FB00F27D83 /* SendButton.swift in Sources */,
@@ -336,6 +363,7 @@
 				7E224A842A39E2F900C15DE0 /* ChatGPTModel.swift in Sources */,
 				7ED0E6832A3B274F00F27D83 /* BaseView.swift in Sources */,
 				7ED0E6782A3B20AC00F27D83 /* UIView + ext.swift in Sources */,
+				7E9A02E32A43135300BA49FD /* ApiKeyBlock.swift in Sources */,
 				7E43EFF72A4081E700978724 /* UICollectionView + ext.swift in Sources */,
 				7ED0E6992A3C5C9300F27D83 /* MessageCell.swift in Sources */,
 				7E9A02CF2A41DAA300BA49FD /* SettingsController.swift in Sources */,

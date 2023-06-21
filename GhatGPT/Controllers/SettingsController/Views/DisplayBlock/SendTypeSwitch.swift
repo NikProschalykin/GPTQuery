@@ -20,6 +20,15 @@ final class SendTypeSwitch: UISwitch {
 
 extension SendTypeSwitch {
     private func configure() {
+        (Settings.shared.messageMode == .stream) ? (isOn = true) : (isOn = false)
+        
         translatesAutoresizingMaskIntoConstraints = false
+        addTarget(self, action: #selector(switchAction(sender:)), for: .valueChanged)
+    }
+}
+
+@objc extension SendTypeSwitch {
+    func switchAction(sender: UISwitch) {
+        sender.isOn ? (Settings.shared.messageMode = .stream) : (Settings.shared.messageMode = .full)
     }
 }

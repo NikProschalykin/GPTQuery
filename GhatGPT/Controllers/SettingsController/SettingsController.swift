@@ -10,11 +10,9 @@ import UIKit
 final class SettingsController: BaseController {
     //MARK: - PROPERTIES
     
-    let typeSwitch = SendTypeSwitch()
-    let switchLabel = SwitchLabel()
-    let keyLabel = KeyLabel()
-    let stateKeyLabel = StateKeyLabel()
-    let setupButton = SetupKeyButton()
+    private let displayBlock = DisplayBlock()
+    let apiKeyBlock = ApiKeyBlock()
+    //var settings = Settings.shared
     
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
@@ -24,13 +22,16 @@ final class SettingsController: BaseController {
     //MARK: - ADD VIEWS
     override func addViews() {
         super.addViews()
-        [typeSwitch, switchLabel, stateKeyLabel, keyLabel, setupButton].forEach({ view.addSubview($0) })
+        
+        [displayBlock, apiKeyBlock].forEach({ view.addSubview($0) })
+      
     }
     
     //MARK: - CONFIGURE
     override func configure() {
         super.configure()
-        setupButton.label = keyLabel
+        apiKeyBlock.setupButton.vc = self
+        print(Settings.shared.apiKey)
     }
     
     //MARK: - LAYOUT
@@ -39,29 +40,18 @@ final class SettingsController: BaseController {
         
         NSLayoutConstraint.activate([
         
-            //typeSwitch
-            typeSwitch.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            typeSwitch.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-        
-            //switchLabel
-            switchLabel.leadingAnchor.constraint(equalTo: typeSwitch.trailingAnchor, constant: 32),
-            switchLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            switchLabel.centerYAnchor.constraint(equalTo: typeSwitch.centerYAnchor),
+            //displayMessageStack
+            displayBlock.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            displayBlock.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 16),
+            displayBlock.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -16),
+            displayBlock.heightAnchor.constraint(equalToConstant: 40),
             
-            //stateKeyLabel
-            stateKeyLabel.leadingAnchor.constraint(equalTo: typeSwitch.leadingAnchor),
-            stateKeyLabel.topAnchor.constraint(equalTo: typeSwitch.bottomAnchor,constant: 100),
-            stateKeyLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -8),
-            
-            //keyLabel
-            keyLabel.leadingAnchor.constraint(equalTo: stateKeyLabel.leadingAnchor),
-            keyLabel.topAnchor.constraint(equalTo: stateKeyLabel.bottomAnchor,constant: 16),
-            keyLabel.trailingAnchor.constraint(equalTo: stateKeyLabel.trailingAnchor),
-            
+
             //setupButton
-            setupButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            setupButton.topAnchor.constraint(equalTo: keyLabel.bottomAnchor,constant: 16),
-            
+            apiKeyBlock.leadingAnchor.constraint(equalTo: displayBlock.leadingAnchor),
+            apiKeyBlock.trailingAnchor.constraint(equalTo: displayBlock.trailingAnchor),
+            apiKeyBlock.heightAnchor.constraint(equalToConstant: 150),
+            apiKeyBlock.topAnchor.constraint(equalTo: displayBlock.bottomAnchor, constant: 100),
         ])
     }
 }

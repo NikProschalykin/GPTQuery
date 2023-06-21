@@ -11,7 +11,6 @@ final class SendButton: UIButton {
     
     weak public var chatVC: ChatController?
     private var message: String?
-    let api = ChatAPI(apiKey: ChatController.apiKey) //РАЗОБРАТЬСЯ КУДА ЗАСУНУТЬ
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -39,34 +38,34 @@ final class SendButton: UIButton {
         chatVC?.hideKeyboard()
         chatVC?.deleteTextInTextView()
         chatVC?.hideStartLabel()
-        Task {
-            do {
-                        //потоковый
-                let stream = try await api.sendMessageStream(text: message!)
-                ChatController.responseList.append((message!,""))
-                chatVC?.moveToLastCell()
-                var text = ""
-                for try await line in stream {
-                    print(line,terminator: "")
-                    text += line
-                    ChatController.responseList[ChatController.responseList.count-1] = (message!,text)
-                    chatVC?.reloadColectionView()
-                }
-                
-
-                //непотоковый
-//                let text = try await api.sendMessage(message!)
+            
+        Settings.shared.messageMode == .full ? SendFullMessage() : SendStreamMessage()
+//            do {
+//                        //потоковый
+////                let stream = try await api.sendMessageStream(text: message!)
+////                ChatController.responseList.append((message!,""))
+////                chatVC?.moveToLastCell()
+////                var text = ""
+////                for try await line in stream {
+////                    print(line,terminator: "")
+////                    text += line
+////                    ChatController.responseList[ChatController.responseList.count-1] = (message!,text)
+////                    chatVC?.reloadColectionView()
+////                }
+//
+//
+//                //непотоковый
+//                let text = try await Settings.shared.chatGptApi.sendMessage(message!)
 //                print(text)
 //                chatVC?.deleteTextInTextView()
 //                ChatController.responseList.append((message!,text))
 //                chatVC?.reloadColectionView()
 //                chatVC?.moveToLastCell()
-                
-                message = ""
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
+//
+//                message = ""
+//            } catch {
+//                print(error.localizedDescription)
+//            }
         self.isEnabled = false
     }
 }
@@ -77,7 +76,7 @@ extension SendButton: UITextViewDelegate {
         message = textView.text
 
         !textView.text.isBlank ? (self.isEnabled = true) : (self.isEnabled = false)
-        print(textView.text.isBlank)
+        //print(textView.text.isBlank)
         
         switch textView.contentSize.height {
         case 56..<388:
@@ -100,7 +99,6 @@ extension SendButton {
             textView.text = nil
             textView.textColor = Resorces.Colors.titleLabel
         }
-        
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -108,6 +106,48 @@ extension SendButton {
         if textView.text.isEmpty {
             textView.text = "Message"
             textView.textColor = UIColor.lightGray
+        }
+    }
+}
+
+
+extension SendButton {
+    
+    //Потоковая
+    private func SendStreamMessage() {
+        Task {
+            do {
+                let stream = try await Settings.shared.chatGptApi.sendMessageStream(text: message!)
+                ChatController.responseList.append((message!,""))
+                chatVC?.moveToLastCell()
+                var text = ""
+                for try await line in stream {
+                    print(line,terminator: "")
+                    text += line
+                    ChatController.responseList[ChatController.responseList.count-1] = (message!,text)
+                    chatVC?.reloadColectionView()
+                }
+                message = ""
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    //Полная
+    private func SendFullMessage() {
+        Task {
+            do {
+                let text = try await Settings.shared.chatGptApi.sendMessage(message!)
+                print(text)
+                chatVC?.deleteTextInTextView()
+                ChatController.responseList.append((message!,text))
+                chatVC?.reloadColectionView()
+                chatVC?.moveToLastCell()
+                message = ""
+            } catch {
+                print(error.localizedDescription)
+            }
         }
     }
 }

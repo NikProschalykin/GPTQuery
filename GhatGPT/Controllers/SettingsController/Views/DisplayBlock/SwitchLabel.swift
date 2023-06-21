@@ -22,6 +22,7 @@ final class SwitchLabel: UILabel {
 
 extension SwitchLabel {
     private func configure() {
+        //backgroundColor = Resorces.Colors.settingsBlocksBackground
         textColor = Resorces.Colors.titleSecondaryLabel
         text = "Streaming message display"
         translatesAutoresizingMaskIntoConstraints = false

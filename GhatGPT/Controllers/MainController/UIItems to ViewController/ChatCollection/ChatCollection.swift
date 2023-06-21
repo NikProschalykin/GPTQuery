@@ -19,7 +19,6 @@ final class ChatCollection: UICollectionView {
     }
     
     private func configure() {
-        
         translatesAutoresizingMaskIntoConstraints = false
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false

@@ -27,7 +27,7 @@ final class KeyLabel: UILabel {
 extension KeyLabel {
     private func configure() {
         textColor = Resorces.Colors.titleLabel
-        text = "************************"
+        text = "***********************"
         translatesAutoresizingMaskIntoConstraints = false
         font = Resorces.Font.helveticaRegular(with: 40)
         numberOfLines = 1
@@ -38,14 +38,13 @@ extension KeyLabel {
 
 @objc extension KeyLabel {
     private func showHideKey() {
-        print("tapped")
         if isTextHide {
             font = Resorces.Font.helveticaRegular(with: 13)
-            text = ChatController.apiKey
+            text = Settings.shared.apiKey
             isTextHide = false
         } else {
             font = Resorces.Font.helveticaRegular(with: 40)
-            text = "************************"
+            text = "***********************"
             isTextHide = true
         }
     }

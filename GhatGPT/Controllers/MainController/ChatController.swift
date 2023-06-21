@@ -40,12 +40,16 @@ final class ChatController: BaseController {
     //public static var textModels = TextModel.makeMockModel()
     public static var responseList = [(String,String)]()
     
-    static var apiKey = "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"//"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"
+     //{
+//        willSet {
+//            footer.sendButton.api = ChatAPI(apiKey: newValue)
+//        }
+   // }//"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"
     private let notificationCenter = NotificationCenter.default
     
     private let contentView = BaseView()
     private let scrollView = ViewControllerScrollView()
-    private let footer = MainFooter()
+    private lazy var footer = MainFooter()
     private let startLabel = StartMessage()
     
     private let layout = ChatCollectionLayout()
@@ -77,6 +81,7 @@ final class ChatController: BaseController {
         super.viewDidLoad()
         addNavBarButton(at: .left, with: "settings")
         addNavBarButton(at: .right, with: "clear")
+        
     }
 //MARK: - CONFIGURE
     override func configure() {
