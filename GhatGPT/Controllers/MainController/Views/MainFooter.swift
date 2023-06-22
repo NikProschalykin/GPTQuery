@@ -14,8 +14,6 @@ final class MainFooter: BaseView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //backgroundColor = .red
-        print(sendButton.alpha)
     }
     
     required init?(coder: NSCoder) {

@@ -104,7 +104,7 @@ extension SendButton {
     func textViewDidEndEditing(_ textView: UITextView) {
         textView.text.isBlank ? (self.isEnabled = false) : (self.isEnabled = true)
         if textView.text.isEmpty {
-            textView.text = "Message"
+            textView.text = Resorces.Strings.ChatStrings.textViewPlaceHolder
             textView.textColor = UIColor.lightGray
         }
     }
@@ -112,13 +112,14 @@ extension SendButton {
 
 
 extension SendButton {
-    
     //Потоковая
     private func SendStreamMessage() {
         Task {
             do {
-                let stream = try await Settings.shared.chatGptApi.sendMessageStream(text: message!)
                 ChatController.responseList.append((message!,""))
+                chatVC?.reloadColectionView()
+                let stream = try await Settings.shared.chatGptApi.sendMessageStream(text: message!)
+                ChatController.responseList[ChatController.responseList.count-1] = (message!,"")
                 chatVC?.moveToLastCell()
                 var text = ""
                 for try await line in stream {
@@ -138,10 +139,13 @@ extension SendButton {
     private func SendFullMessage() {
         Task {
             do {
+                ChatController.responseList.append((message!,""))
+                chatVC?.reloadColectionView()
+                chatVC?.moveToLastCell()
                 let text = try await Settings.shared.chatGptApi.sendMessage(message!)
                 print(text)
                 chatVC?.deleteTextInTextView()
-                ChatController.responseList.append((message!,text))
+                ChatController.responseList[ChatController.responseList.count-1] = (message!,text)
                 chatVC?.reloadColectionView()
                 chatVC?.moveToLastCell()
                 message = ""

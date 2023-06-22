@@ -26,6 +26,9 @@
 		7E9A02DF2A43086E00BA49FD /* DisplayBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02DE2A43086E00BA49FD /* DisplayBlock.swift */; };
 		7E9A02E32A43135300BA49FD /* ApiKeyBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02E22A43135300BA49FD /* ApiKeyBlock.swift */; };
 		7E9A02E52A433C9500BA49FD /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02E42A433C9500BA49FD /* Settings.swift */; };
+		7E9A02E72A444FFE00BA49FD /* DescriptionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02E62A444FFE00BA49FD /* DescriptionLabel.swift */; };
+		7E9A02EB2A44633800BA49FD /* CopyKeyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02EA2A44633800BA49FD /* CopyKeyButton.swift */; };
+		7E9A02ED2A448E5B00BA49FD /* IndicatorFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02EC2A448E5B00BA49FD /* IndicatorFooter.swift */; };
 		7ED0E6782A3B20AC00F27D83 /* UIView + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0E6772A3B20AC00F27D83 /* UIView + ext.swift */; };
 		7ED0E67A2A3B221D00F27D83 /* BaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0E6792A3B221D00F27D83 /* BaseController.swift */; };
 		7ED0E67C2A3B226300F27D83 /* UIColor + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0E67B2A3B226300F27D83 /* UIColor + ext.swift */; };
@@ -64,6 +67,9 @@
 		7E9A02DE2A43086E00BA49FD /* DisplayBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayBlock.swift; sourceTree = "<group>"; };
 		7E9A02E22A43135300BA49FD /* ApiKeyBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeyBlock.swift; sourceTree = "<group>"; };
 		7E9A02E42A433C9500BA49FD /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		7E9A02E62A444FFE00BA49FD /* DescriptionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionLabel.swift; sourceTree = "<group>"; };
+		7E9A02EA2A44633800BA49FD /* CopyKeyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyKeyButton.swift; sourceTree = "<group>"; };
+		7E9A02EC2A448E5B00BA49FD /* IndicatorFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorFooter.swift; sourceTree = "<group>"; };
 		7ED0E6772A3B20AC00F27D83 /* UIView + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + ext.swift"; sourceTree = "<group>"; };
 		7ED0E6792A3B221D00F27D83 /* BaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseController.swift; sourceTree = "<group>"; };
 		7ED0E67B2A3B226300F27D83 /* UIColor + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + ext.swift"; sourceTree = "<group>"; };
@@ -94,7 +100,7 @@
 		7E3A7A7E2A39C9BA00FA7908 = {
 			isa = PBXGroup;
 			children = (
-				7ED0E67F2A3B23E800F27D83 /* Resorces */,
+				7ED0E67F2A3B23E800F27D83 /* Resorces + Settings */,
 				7E3A7A892A39C9BA00FA7908 /* GhatGPT */,
 				7E3A7A882A39C9BA00FA7908 /* Products */,
 			);
@@ -134,6 +140,7 @@
 		7E9A02DB2A41F50300BA49FD /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7E9A02E62A444FFE00BA49FD /* DescriptionLabel.swift */,
 				7E9A02E12A43133600BA49FD /* API Key block */,
 				7E9A02E02A43087200BA49FD /* DisplayBlock */,
 			);
@@ -157,6 +164,7 @@
 				7E9A02D92A41F07F00BA49FD /* StateKeyLabel.swift */,
 				7E9A02D72A41E50000BA49FD /* SetupKeyButton.swift */,
 				7E9A02E22A43135300BA49FD /* ApiKeyBlock.swift */,
+				7E9A02EA2A44633800BA49FD /* CopyKeyButton.swift */,
 			);
 			path = "API Key block";
 			sourceTree = "<group>";
@@ -228,12 +236,13 @@
 			path = extensions;
 			sourceTree = "<group>";
 		};
-		7ED0E67F2A3B23E800F27D83 /* Resorces */ = {
+		7ED0E67F2A3B23E800F27D83 /* Resorces + Settings */ = {
 			isa = PBXGroup;
 			children = (
 				7ED0E6802A3B240E00F27D83 /* Resorces.swift */,
+				7E9A02E42A433C9500BA49FD /* Settings.swift */,
 			);
-			path = Resorces;
+			path = "Resorces + Settings";
 			sourceTree = "<group>";
 		};
 		7ED0E6842A3B2B8F00F27D83 /* Base */ = {
@@ -242,7 +251,6 @@
 				7ED0E6822A3B274F00F27D83 /* BaseView.swift */,
 				7ED0E6792A3B221D00F27D83 /* BaseController.swift */,
 				7ED0E6852A3B30C800F27D83 /* NavBarController.swift */,
-				7E9A02E42A433C9500BA49FD /* Settings.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -261,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				7ED0E6962A3C57DC00F27D83 /* ChatCollection.swift */,
+				7E9A02EC2A448E5B00BA49FD /* IndicatorFooter.swift */,
 				7ED0E6982A3C5C9300F27D83 /* MessageCell.swift */,
 				7ED0E69B2A3C5F5E00F27D83 /* MessageLabel.swift */,
 				7ED0E69F2A3C6E8800F27D83 /* ChatCollectionLayout.swift */,
@@ -347,6 +356,8 @@
 				7E3A7A8B2A39C9BA00FA7908 /* AppDelegate.swift in Sources */,
 				7E9A02D42A41DD1A00BA49FD /* SwitchLabel.swift in Sources */,
 				7ED0E67A2A3B221D00F27D83 /* BaseController.swift in Sources */,
+				7E9A02ED2A448E5B00BA49FD /* IndicatorFooter.swift in Sources */,
+				7E9A02EB2A44633800BA49FD /* CopyKeyButton.swift in Sources */,
 				7E9A02D22A41DC7600BA49FD /* SendTypeSwitch.swift in Sources */,
 				7ED0E6952A3C4A8800F27D83 /* MessageTextView.swift in Sources */,
 				7ED0E6862A3B30C800F27D83 /* NavBarController.swift in Sources */,
@@ -359,6 +370,7 @@
 				7E3A7A8D2A39C9BA00FA7908 /* SceneDelegate.swift in Sources */,
 				7ED0E68E2A3B46FB00F27D83 /* SendButton.swift in Sources */,
 				7E9A02D82A41E50000BA49FD /* SetupKeyButton.swift in Sources */,
+				7E9A02E72A444FFE00BA49FD /* DescriptionLabel.swift in Sources */,
 				7E43EFFB2A40A57800978724 /* StartMessage.swift in Sources */,
 				7E224A842A39E2F900C15DE0 /* ChatGPTModel.swift in Sources */,
 				7ED0E6832A3B274F00F27D83 /* BaseView.swift in Sources */,

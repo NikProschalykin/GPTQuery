@@ -22,7 +22,7 @@ final class MessageTextView: UITextView {
         font = Resorces.Font.helveticaRegular(with: 17)
         backgroundColor = .systemGray4
         autocorrectionType = .no
-        text = "Message"
+        text = Resorces.Strings.ChatStrings.textViewPlaceHolder
         textColor = UIColor.lightGray
         layer.cornerRadius = 10
     }

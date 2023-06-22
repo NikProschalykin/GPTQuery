@@ -33,11 +33,11 @@ final class MessageCell: UICollectionViewCell {
         switch author {
         case .user:
             backgroundColor = .systemBlue
-            label.text = "[user] \(text!)"
+            label.text = "[user]\n\(text!)"
         
         case .assistant:
             backgroundColor = .systemGreen
-            label.text = "[assistant] \(text!)"
+            label.text = "[assistant]\n\(text!)"
         }
     }
 }

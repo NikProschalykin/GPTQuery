@@ -45,7 +45,6 @@ extension SetupKeyButton {
         let alertController = UIAlertController(title: title, message: "Enter your API KEY", preferredStyle: .alert)
         alertController.addTextField(configurationHandler: { (textField : UITextField!) -> Void in
             textField.placeholder = "key"
-            textField.delegate = self
         })
         
         
@@ -57,7 +56,7 @@ extension SetupKeyButton {
         alertController.addAction(okAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
-            self.isCorrectInputKey = false
+            self.isCorrectInputKey = true
         }
         alertController.addAction(cancelAction)
         
@@ -65,8 +64,3 @@ extension SetupKeyButton {
     }
 }
 
-extension SetupKeyButton: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        print(textField.text?.count)
-    }
-}

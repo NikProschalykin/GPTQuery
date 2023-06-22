@@ -19,7 +19,6 @@ final class Settings {
     var messageMode: Mode = .full
     var apiKey = "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" {
         willSet {
-            print("BUG")
             chatGptApi = ChatAPI(apiKey: newValue)
         }
     }

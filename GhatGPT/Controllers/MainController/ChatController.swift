@@ -79,15 +79,14 @@ final class ChatController: BaseController {
 //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        addNavBarButton(at: .left, with: "settings")
-        addNavBarButton(at: .right, with: "clear")
-        
     }
 //MARK: - CONFIGURE
     override func configure() {
         super.configure()
         title = "Today"
         footer.sendButton.chatVC = self
+        addNavBarImageButton(at: .left, with: UIImage(systemName: "gearshape")!)
+        addNavBarTextButton(at: .right, with: "clear")
     }
 //MARK: - ADD VIEWS
     override func addViews() {
@@ -171,7 +170,7 @@ extension ChatController {
         collectionView.reloadData()
     }
     func deleteTextInTextView() {
-        footer.textView.text = "Message"
+        footer.textView.text = Resorces.Strings.ChatStrings.textViewPlaceHolder
         footer.textView.textColor = UIColor.lightGray
     }
     func moveToLastCell() {
@@ -182,9 +181,14 @@ extension ChatController {
     }
 }
 
+//MARK: - Present VC на половину экрана
 extension ChatController {
     override func navBarLeftButtonHandler() {
         super.navBarLeftButtonHandler()
-        present(SettingsController(), animated: true)
+        let vc = SettingsController()
+        if let presentationController = vc.presentationController as? UISheetPresentationController {
+                    presentationController.detents = [.medium()]
+                }
+        present(vc, animated: true)
     }
 }

@@ -22,7 +22,7 @@ final class StartMessage: UILabel {
 extension StartMessage {
     private func configure() {
         textColor = Resorces.Colors.titleSecondaryLabel
-        text = "Hi, I'm your chatGPT assistant. Let's start chatting! Enter your first message"
+        text = Resorces.Strings.ChatStrings.startMessage
         translatesAutoresizingMaskIntoConstraints = false
         font = Resorces.Font.helveticaRegular(with: 20)
         numberOfLines = 0
