@@ -18,7 +18,7 @@ class ChatAPI {
     private let urlSession = URLSession.shared
     private var historyList = [Message]()
 
-     private var urlRequest: URLRequest {
+    private var urlRequest: URLRequest {
          let url = URL(string: "https://api.openai.com/v1/chat/completions")!
          var urlRequest = URLRequest(url: url)
          urlRequest.httpMethod = "POST"
@@ -52,11 +52,15 @@ class ChatAPI {
         self.historyList.append(.init(role: "assistant", content: responseText))
     }
     
+    func deleteHistoryList() {
+            self.historyList.removeAll()
+        }
+    
     private func generateMessage(from text: String) -> [Message] {
         var messages = [systemMessage] + historyList + [Message(role: "user", content: text)]
         
         if messages.count > (4000 * 4) {
-            _ = historyList.dropFirst()
+            _ = historyList.removeFirst()
             messages = generateMessage(from: text)
         }
         
@@ -66,79 +70,80 @@ class ChatAPI {
     private func jsonBody(text: String, stream: Bool = true) throws -> Data {
         let request = Request(model: model,
                               temperature: temperature,
-                              message: generateMessage(from: text),
+                              messages: generateMessage(from: text),
                               stream: stream)
         return try JSONEncoder().encode(request)
     }
     
-    func sendMessageStream(text: String) async throws -> AsyncThrowingStream<String, Error > {
+    func sendMessageStream(text: String) async throws -> AsyncThrowingStream<String, Error> {
         var urlRequest = self.urlRequest
         urlRequest.httpBody = try jsonBody(text: text)
-        
+
         let (result, response) = try await urlSession.bytes(for: urlRequest)
-        
+
         guard let httpResponse = response as? HTTPURLResponse else {
             throw "Invalid response"
         }
         guard 200...299 ~= httpResponse.statusCode else {
-                    var errorText = ""
-                    for try await line in result.lines {
-                        try Task.checkCancellation()
-                        errorText += line
-                    }
-                    
-                    if let data = errorText.data(using: .utf8), let errorResponse = try? jsonDecoder.decode(ErrorRootResponse.self, from: data).error {
-                        errorText = "\n\(errorResponse.message)"
-                    }
-                    
-                    throw "Bad Response: \(httpResponse.statusCode), \(errorText)"
-                }
-        
+            var errorText = ""
+            for try await line in result.lines {
+                try Task.checkCancellation()
+                errorText += line
+            }
+
+            if let data = errorText.data(using: .utf8), let errorResponse = try?
+                jsonDecoder.decode(ErrorRootResponse.self, from: data).error {
+                errorText = "\n\(errorResponse.message)"
+            }
+
+            throw "Bad Response: \(httpResponse.statusCode), \(errorText)"
+        }
+
         var responseText = ""
-                return AsyncThrowingStream { [weak self] in
-                    guard let self else { return nil }
-                    for try await line in result.lines {
-                        try Task.checkCancellation()
-                        if line.hasPrefix("data: "),
-                           let data = line.dropFirst(6).data(using: .utf8),
-                           let response = try? self.jsonDecoder.decode(StreamCompletionResponse.self, from: data),
-                           let text = response.choices.first?.delta.content {
-                            responseText += text
-                            return text
-                        }
-                    }
-                    self.appendToHistoryList(userText: text, responseText: responseText)
-                    return nil
+        return AsyncThrowingStream { [weak self] in
+            guard let self else { return nil }
+            for try await line in result.lines {
+                try Task.checkCancellation()
+                if line.hasPrefix("data: "),
+                   let data = line.dropFirst(6).data(using: .utf8),
+                   let response = try? self.jsonDecoder.decode(StreamCompletionResponse.self, from: data),
+                   let text = response.choices.first?.delta.content {
+                    responseText += text
+                    return text
                 }
+            }
+            self.appendToHistoryList(userText: text, responseText: responseText)
+            return nil
+        }
     }
     
     func sendMessage(_ text: String) async throws -> String {
-            var urlRequest = self.urlRequest
-            urlRequest.httpBody = try jsonBody(text: text, stream: false)
-            
-            let (data, response) = try await urlSession.data(for: urlRequest)
-            try Task.checkCancellation()
-            guard let httpResponse = response as? HTTPURLResponse else {
-                throw "Invalid response"
-            }
-            
-            guard 200...299 ~= httpResponse.statusCode else {
-                var error = "Bad Response: \(httpResponse.statusCode)"
-                if let errorResponse = try? jsonDecoder.decode(ErrorRootResponse.self, from: data).error {
-                    error.append("\n\(errorResponse.message)")
-                }
-                throw error
-            }
-            
-            do {
-                let completionResponse = try self.jsonDecoder.decode(CompletionResponce.self, from: data)
-                let responseText = completionResponse.choices.first?.message.content ?? ""
-                self.appendToHistoryList(userText: text, responseText: responseText)
-                return responseText
-            } catch {
-                throw error
-            }
+        var urlRequest = self.urlRequest
+        urlRequest.httpBody = try jsonBody(text: text, stream: false)
+        
+        let (data, response) = try await urlSession.data(for: urlRequest)
+        try Task.checkCancellation()
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw "Invalid response"
         }
+        
+        guard 200...299 ~= httpResponse.statusCode else {
+            var error = "Bad Response: \(httpResponse.statusCode)"
+            if let errorResponse = try? jsonDecoder.decode(ErrorRootResponse.self, from: data).error {
+                error.append("\n\(errorResponse.message)")
+            }
+            throw error
+        }
+        
+        do {
+            let completionResponse = try self.jsonDecoder.decode(CompletionResponce.self, from: data)
+            let responseText = completionResponse.choices.first?.message.content ?? ""
+            self.appendToHistoryList(userText: text, responseText: responseText)
+            return responseText
+        } catch {
+            throw error
+        }
+    }
 }
 
 extension String: CustomNSError {

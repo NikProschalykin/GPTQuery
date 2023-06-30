@@ -22,7 +22,7 @@ extension Array where Element == Message {
 struct Request: Codable {
     let model: String
     let temperature: Double
-    let message: [Message]
+    let messages: [Message]
     let stream: Bool
 }
 
