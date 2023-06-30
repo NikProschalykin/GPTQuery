@@ -15,7 +15,6 @@ enum Mode {
 final class Settings {
     static let shared = Settings()
     
-    
     var messageMode: Mode = .full
     var apiKey = "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" {
         willSet {

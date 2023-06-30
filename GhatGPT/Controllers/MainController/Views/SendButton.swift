@@ -35,6 +35,7 @@ final class SendButton: UIButton {
 @objc extension SendButton {
     func buttonAction() {
         print("tapped")
+        chatVC?.heightFooter.constant = 45
         chatVC?.hideKeyboard()
         chatVC?.deleteTextInTextView()
         chatVC?.hideStartLabel()

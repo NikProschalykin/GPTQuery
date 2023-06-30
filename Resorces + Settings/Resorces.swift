@@ -8,6 +8,7 @@
 import UIKit
 
 enum Resorces {
+    
     enum Colors {
         static var active = UIColor(hexString: "#437BFE")
         static var inactive = UIColor(hexString: "#929DA5")
@@ -20,6 +21,7 @@ enum Resorces {
         static var titleLabel = UIColor.label
         static var titleSecondaryLabel = UIColor.secondaryLabel
     }
+    
     enum Font {
         static func helveticaRegular(with size: CGFloat) -> UIFont {
             UIFont(name: "helvetica", size: size) ?? UIFont()
@@ -28,6 +30,7 @@ enum Resorces {
             UIFont(name: "Helvetica-Bold", size: size) ?? UIFont()
         }
     }
+    
     enum Authors {
         case user
         case assistant

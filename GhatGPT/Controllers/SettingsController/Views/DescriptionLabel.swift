@@ -16,9 +16,6 @@ final class DescriptionLabel: UILabel {
 
 extension DescriptionLabel {
     private func configure() {
-//        textColor = Resorces.Colors.titleSecondaryLabel
-//        translatesAutoresizingMaskIntoConstraints = false
-//        font = Resorces.Font.helveticaRegular(with: 14)
         textAlignment = .center
         numberOfLines = 0
         translatesAutoresizingMaskIntoConstraints = false

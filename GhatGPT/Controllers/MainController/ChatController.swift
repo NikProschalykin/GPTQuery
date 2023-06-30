@@ -5,26 +5,6 @@
 //  Created by Николай Прощалыкин on 14.06.2023.
 //
 
-// MARK: - START API SOON
-//Task {
-//    let api = ChatAPI(apiKey: ViewController.apiKey)
-//    do {
-////                //потоковый
-////                let stream = try await api.sendMessageStream(text: "What is James Bond")
-////                for try await line in stream {
-////                    print(line)
-////                }
-//
-//        //непотоковый
-//        let text = try await api.sendMessage("What is James bond?")
-//        print(text)
-//    } catch {
-//        print(error.localizedDescription)
-//    }
-//}
-
-// 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 - Данин
-
 import UIKit
 
 // MARK: - VIEWCONTROLLER
@@ -32,26 +12,18 @@ import UIKit
 final class ChatController: BaseController {
     
     //MARK: - Layout properties
-    
     var heightFooter = NSLayoutConstraint()
     
     
     //MARK: - PROPERTIES
-    //public static var textModels = TextModel.makeMockModel()
     public static var responseList = [(String,String)]()
     
-     //{
-//        willSet {
-//            footer.sendButton.api = ChatAPI(apiKey: newValue)
-//        }
-   // }//"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"
     private let notificationCenter = NotificationCenter.default
     
     private let contentView = BaseView()
     private let scrollView = ViewControllerScrollView()
     private lazy var footer = MainFooter()
     private let startLabel = StartMessage()
-    
     private let layout = ChatCollectionLayout()
     private lazy var collectionView = ChatCollection(frame: .zero, collectionViewLayout: layout)
     
@@ -184,11 +156,21 @@ extension ChatController {
 //MARK: - Present VC на половину экрана
 extension ChatController {
     override func navBarLeftButtonHandler() {
-        super.navBarLeftButtonHandler()
         let vc = SettingsController()
         if let presentationController = vc.presentationController as? UISheetPresentationController {
                     presentationController.detents = [.medium()]
                 }
         present(vc, animated: true)
+    }
+}
+
+//MARK: - Очистка чата
+extension ChatController {
+    override func navBarRightButtonHandler() {
+        guard !ChatController.responseList.isEmpty else { return }
+        Settings.shared.chatGptApi.deleteHistoryList()
+        ChatController.responseList.removeAll()
+        collectionView.reloadData()
+        startLabel.isHidden = false
     }
 }
