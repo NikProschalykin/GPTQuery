@@ -74,9 +74,9 @@ extension ChatCollection: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MessageCell.identifier, for: indexPath) as! MessageCell
         
         if indexPath.item == 0 {
-            cell.setupCell(text: ChatController.responseList[indexPath.section].0, author: .user)
+            cell.setupCell(text: ChatController.responseList[indexPath.section].0, author: .user, isSuccess: true)
         } else {
-            cell.setupCell(text: ChatController.responseList[indexPath.section].1, author: .assistant)
+            cell.setupCell(text: ChatController.responseList[indexPath.section].1, author: .assistant, isSuccess: ChatController.responseList[indexPath.section].2)
         }
         
         return cell

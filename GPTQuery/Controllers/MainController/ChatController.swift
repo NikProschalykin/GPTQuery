@@ -16,7 +16,7 @@ final class ChatController: BaseController {
     
     
     //MARK: - PROPERTIES
-    public static var responseList = [(String,String)]()
+    public static var responseList = [(String,String,Bool)]()
     
     private let notificationCenter = NotificationCenter.default
     
@@ -121,7 +121,7 @@ final class ChatController: BaseController {
     //MARK: - keyBoardShow
     private func keyBoardShow(notification: NSNotification){
         if let keyBoardSize: CGRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            scrollView.setContentOffset(CGPoint(x: 0, y: keyBoardSize.height-31), animated: true)
+            scrollView.setContentOffset(CGPoint(x: 0, y: keyBoardSize.height), animated: true)
         }
     }
     
