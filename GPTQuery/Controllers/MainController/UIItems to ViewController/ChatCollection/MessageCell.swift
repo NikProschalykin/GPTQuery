@@ -9,10 +9,11 @@ import UIKit
 
 final class MessageCell: UICollectionViewCell {
     
+    
     private let contentCellView = BaseView()
     private let label = MessageLabel()
     private var author: Resorces.Authors?
-    private let imageView =  Avatar(avatarImage: UIImage(named: "openai-logo-svg")!)
+    private let imageView = Avatar(frame: .zero)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,15 +34,17 @@ final class MessageCell: UICollectionViewCell {
         
         switch author {
         case .user:
-            backgroundColor = .systemBlue
-            label.text = "[user]\n\(text!)"
+            backgroundColor = Resorces.Colors.userMessageCell//.systemBlue
+            label.text = "\(text!)"//[user]\n
+            imageView.image = Resorces.Images.avatarManClearSvg
         
         case .assistant:
-            backgroundColor = .systemGreen
-            label.text = "[assistant]\n\(text!)"
+            backgroundColor = Resorces.Colors.aiMessageCell//.systemGreen
+            label.text = "\(text!)"//[assistant]\n
+            imageView.image = Resorces.Images.logoSvg
         }
         
-        isSuccess ? (self.label.textColor = .black) : (self.label.textColor = .red)
+       isSuccess ? (self.label.textColor = Resorces.Colors.messageText) : (self.label.textColor = Resorces.Colors.errorText)
     }
 }
 
@@ -55,21 +58,21 @@ extension MessageCell {
     }
     
     private func addViews() {
-        contentView.addSubview(label)
-        contentView.addSubview(imageView)
+        [label,imageView].forEach({ self.contentView.addSubview($0) })
     }
     
     private func layout() {
+        
         NSLayoutConstraint.activate([
             //imageView
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 2),
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 2),
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 4),
             imageView.widthAnchor.constraint(equalToConstant: 50),
             imageView.heightAnchor.constraint(equalToConstant: 50),
             
             //label
             label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor,constant: 8),
-            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -2),
+            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -4),
             label.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 2),
             label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -2),
             
@@ -78,18 +81,26 @@ extension MessageCell {
     
 }
 
+
+//MARK: - Avatar imageView
 extension MessageCell {
      private final class Avatar: UIImageView {
-        convenience init(avatarImage: UIImage) {
-            self.init(frame: .zero)
-            configure()
-            self.image = avatarImage
-        }
+         override init(frame: CGRect) {
+             super.init(frame: frame)
+             configure()
+         }
+         
+         required init?(coder: NSCoder) {
+             fatalError("init(coder:) has not been implemented")
+         }
+         
         
          private func configure() {
             contentMode = .scaleAspectFit
             translatesAutoresizingMaskIntoConstraints = false
-             tintColor = .white
+            tintColor = Resorces.Colors.avatar
         }
     }
 }
+
+

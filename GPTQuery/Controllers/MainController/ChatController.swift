@@ -174,3 +174,12 @@ extension ChatController {
         startLabel.isHidden = false
     }
 }
+
+extension ChatController {
+     func regenerateResponce() {
+        self.footer.sendButton.SendMessage(isnewMessage: false)
+    }
+    
+}
+
+

@@ -9,9 +9,21 @@ import UIKit
 
 enum Resorces {
     
+    enum Images {
+        static var logoClear = UIImage(named: "openai-logo-clear")!
+        static var logoSvg = UIImage(named: "openai-logo-svg")!
+        static var logoWhite = UIImage(named: "openai-logo-white")!
+        
+        static var avatarManClear = UIImage(named: "man-avatar-clear")!
+        static var avatarManClearSvg = UIImage(named: "man-avatar-clear-svg")!
+        
+    }
+    
     enum Colors {
         static var active = UIColor(hexString: "#437BFE")
         static var inactive = UIColor(hexString: "#929DA5")
+        static var errorText = UIColor(hexString: "#FF0D00") //#A60800
+        static var messageText = UIColor.black
         
         static var background = UIColor.systemBackground
         static var backgroundGray = UIColor.systemGray5
@@ -20,6 +32,11 @@ enum Resorces {
         
         static var titleLabel = UIColor.label
         static var titleSecondaryLabel = UIColor.secondaryLabel
+        
+        
+        static var userMessageCell = UIColor(named: "user-message-cell")
+        static var aiMessageCell = UIColor(named: "ai-message-cell")
+        static var avatar = UIColor.black   
     }
     
     enum Font {
@@ -81,6 +98,7 @@ enum Resorces {
                 }()
             }
         }
+        
         enum ChatStrings {
             
             static let startMessage = "Hi, I'm your chatGPT assistant. Let's start chatting! Enter your first message"

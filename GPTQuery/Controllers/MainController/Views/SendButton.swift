@@ -87,10 +87,10 @@ extension SendButton {
 //MARK: - SEND MESSAGE TO Server
 extension SendButton {
         
-    private func SendMessage() {
+    func SendMessage(isnewMessage: Bool = true) {
         Task {
             do {
-                ChatController.responseList.append((message!,"",true))
+                isnewMessage ? ChatController.responseList.append((message!,"",true)) : (ChatController.responseList[ChatController.responseList.count-1] = (message!,"", true))
                 chatVC?.reloadColectionView()
                 chatVC?.moveToLastCell()
                 
