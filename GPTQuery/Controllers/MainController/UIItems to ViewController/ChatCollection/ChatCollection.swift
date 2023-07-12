@@ -26,6 +26,7 @@ final class ChatCollection: UICollectionView {
         dataSource = self
         delegate = self
         register(IdicatorFooter.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: IdicatorFooter.identifier)
+        register(RegenerateFooter.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: RegenerateFooter.identifier)
     }
     
     //MARK: - Расчет размера ячейки
@@ -37,24 +38,24 @@ final class ChatCollection: UICollectionView {
         default: break
         }
         
-        let height = (text.heightWithConstrainedWidth(width: UIScreen.main.bounds.width, font: Resorces.Font.helveticaRegular(with: 18)))
-        
+        let height = (text.heightWithConstrainedWidth(width: UIScreen.main.bounds.width - 16, font: Resorces.Font.helveticaRegular(with: 18)))
         
         switch indexPath.item {
         case 0:
-            print(height + 28, text)
-            return CGSize(width: UIScreen.main.bounds.width - 16, height: height + 28)
-        case 1:
             print(height + 16, text)
             return CGSize(width: UIScreen.main.bounds.width - 16, height: height + 16)
+        case 1:
+            print(height + 20, text)
+                return CGSize(width: UIScreen.main.bounds.width - 16, height: height + 20)
         default: return .zero
         }
     }
     
     //MARK: - Расчет размера футера
     private func calculateFooterSize(to section: Int) -> CGSize {
-        guard ChatController.responseList[section].1.isBlank else { return .zero }
-        return CGSize(width: 50, height: 50)
+        if ChatController.responseList[section].1.isBlank { return CGSize(width: 50, height: 50) }
+        if !ChatController.responseList[section].2 { return CGSize(width: 50, height: 50) }
+        return .zero
     }
 }
 
@@ -74,9 +75,9 @@ extension ChatCollection: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MessageCell.identifier, for: indexPath) as! MessageCell
         
         if indexPath.item == 0 {
-            cell.setupCell(text: ChatController.responseList[indexPath.section].0, author: .user)
+            cell.setupCell(text: ChatController.responseList[indexPath.section].0, author: .user, isSuccess: true)
         } else {
-            cell.setupCell(text: ChatController.responseList[indexPath.section].1, author: .assistant)
+            cell.setupCell(text: ChatController.responseList[indexPath.section].1, author: .assistant, isSuccess: ChatController.responseList[indexPath.section].2)
         }
         
         return cell
@@ -86,9 +87,15 @@ extension ChatCollection: UICollectionViewDataSource {
         
         switch kind {
             case UICollectionView.elementKindSectionFooter:
+            if ChatController.responseList[indexPath.section].2 {
                 let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: IdicatorFooter.identifier, for: indexPath)
                 
                 return footerView
+            } else {
+                let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RegenerateFooter.identifier, for: indexPath)
+                
+                return footerView
+            }
             default:
                 assert(false, "Unexpected element kind")
             }

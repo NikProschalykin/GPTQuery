@@ -22,7 +22,7 @@ final class MessageLabel: UILabel {
 
 extension MessageLabel {
     private func configure() {
-        textColor = .black
+        textColor = Resorces.Colors.messageText
         translatesAutoresizingMaskIntoConstraints = false
         font = Resorces.Font.helveticaRegular(with: 17)
         numberOfLines = 0

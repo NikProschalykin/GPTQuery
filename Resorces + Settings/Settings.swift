@@ -16,7 +16,7 @@ final class Settings {
     static let shared = Settings()
     
     var messageMode: Mode = .full
-    var apiKey = "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" {
+    var apiKey = "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" { //s
         willSet {
             chatGptApi = ChatAPI(apiKey: newValue)
         }

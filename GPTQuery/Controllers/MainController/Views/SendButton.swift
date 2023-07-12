@@ -40,33 +40,7 @@ final class SendButton: UIButton {
         chatVC?.deleteTextInTextView()
         chatVC?.hideStartLabel()
             
-        Settings.shared.messageMode == .full ? SendFullMessage() : SendStreamMessage()
-//            do {
-//                        //потоковый
-////                let stream = try await api.sendMessageStream(text: message!)
-////                ChatController.responseList.append((message!,""))
-////                chatVC?.moveToLastCell()
-////                var text = ""
-////                for try await line in stream {
-////                    print(line,terminator: "")
-////                    text += line
-////                    ChatController.responseList[ChatController.responseList.count-1] = (message!,text)
-////                    chatVC?.reloadColectionView()
-////                }
-//
-//
-//                //непотоковый
-//                let text = try await Settings.shared.chatGptApi.sendMessage(message!)
-//                print(text)
-//                chatVC?.deleteTextInTextView()
-//                ChatController.responseList.append((message!,text))
-//                chatVC?.reloadColectionView()
-//                chatVC?.moveToLastCell()
-//
-//                message = ""
-//            } catch {
-//                print(error.localizedDescription)
-//            }
+        SendMessage()
         self.isEnabled = false
     }
 }
@@ -77,7 +51,6 @@ extension SendButton: UITextViewDelegate {
         message = textView.text
 
         !textView.text.isBlank ? (self.isEnabled = true) : (self.isEnabled = false)
-        //print(textView.text.isBlank)
         
         switch textView.contentSize.height {
         case 56..<388:
@@ -111,48 +84,43 @@ extension SendButton {
     }
 }
 
-
+//MARK: - SEND MESSAGE TO Server
 extension SendButton {
-    //Потоковая
-    private func SendStreamMessage() {
+        
+    func SendMessage(isnewMessage: Bool = true) {
         Task {
             do {
-                ChatController.responseList.append((message!,""))
+                isnewMessage ? ChatController.responseList.append((message!,"",true)) : (ChatController.responseList[ChatController.responseList.count-1] = (message!,"", true))
                 chatVC?.reloadColectionView()
-                let stream = try await Settings.shared.chatGptApi.sendMessageStream(text: message!)
-                ChatController.responseList[ChatController.responseList.count-1] = (message!,"")
                 chatVC?.moveToLastCell()
-                var text = ""
-                for try await line in stream {
-                    print(line,terminator: "")
-                    text += line
-                    ChatController.responseList[ChatController.responseList.count-1] = (message!,text)
+                
+                //Полное сообщение
+                if Settings.shared.messageMode == .full {
+                    let text = try await Settings.shared.chatGptApi.sendMessage(message!)
+                    print(text)
+                    ChatController.responseList[ChatController.responseList.count-1] = (message!,text, true)
                     chatVC?.reloadColectionView()
+                    chatVC?.moveToLastCell()
+                } else {
+                //Потоковое
+                    let stream = try await Settings.shared.chatGptApi.sendMessageStream(text: message!)
+                    ChatController.responseList[ChatController.responseList.count-1] = (message!,"",true)
+                    chatVC?.moveToLastCell()
+                    var text = ""
+                    for try await line in stream {
+                        print(line,terminator: "")
+                        text += line
+                        ChatController.responseList[ChatController.responseList.count-1] = (message!,text, true)
+                        chatVC?.reloadColectionView()
+                    }
                 }
                 message = ""
             } catch {
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    //Полная
-    private func SendFullMessage() {
-        Task {
-            do {
-                ChatController.responseList.append((message!,""))
+                ChatController.responseList[ChatController.responseList.count-1] = (message!,error.localizedDescription, false)
                 chatVC?.reloadColectionView()
                 chatVC?.moveToLastCell()
-                let text = try await Settings.shared.chatGptApi.sendMessage(message!)
-                print(text)
-                chatVC?.deleteTextInTextView()
-                ChatController.responseList[ChatController.responseList.count-1] = (message!,text)
-                chatVC?.reloadColectionView()
-                chatVC?.moveToLastCell()
-                message = ""
-            } catch {
-                print(error.localizedDescription)
             }
         }
     }
 }
+
