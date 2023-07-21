@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MessageTextView: UITextView {
+final class InputMessageTextView: UITextView {
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         configure()

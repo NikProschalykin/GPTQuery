@@ -11,7 +11,7 @@ final class MessageCell: UICollectionViewCell {
     
     
     private let contentCellView = BaseView()
-    private let label = MessageLabel()
+    private let textView = MessageTextView()
     private var author: Resorces.Authors?
     private let imageView = Avatar(frame: .zero)
     
@@ -26,7 +26,7 @@ final class MessageCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        label.text = nil
+        textView.text = nil
     }
     
     public func setupCell(text: String?,author: Resorces.Authors,  isSuccess: Bool) {
@@ -35,16 +35,17 @@ final class MessageCell: UICollectionViewCell {
         switch author {
         case .user:
             backgroundColor = Resorces.Colors.userMessageCell//.systemBlue
-            label.text = "\(text!)"//[user]\n
+            textView.text = "\(text!)"//[user]\n
             imageView.image = Resorces.Images.avatarManClearSvg
         
         case .assistant:
             backgroundColor = Resorces.Colors.aiMessageCell//.systemGreen
-            label.text = "\(text!)"//[assistant]\n
+            textView.text = "\(text!)"//[assistant]\n
             imageView.image = Resorces.Images.logoSvg
         }
         
-       isSuccess ? (self.label.textColor = Resorces.Colors.messageText) : (self.label.textColor = Resorces.Colors.errorText)
+       isSuccess ? (self.textView.textColor = Resorces.Colors.messageText) : (self.textView.textColor = Resorces.Colors.errorText)
+        
     }
 }
 
@@ -58,7 +59,7 @@ extension MessageCell {
     }
     
     private func addViews() {
-        [label,imageView].forEach({ self.contentView.addSubview($0) })
+        [textView,imageView].forEach({ self.contentView.addSubview($0) })
     }
     
     private func layout() {
@@ -71,10 +72,10 @@ extension MessageCell {
             imageView.heightAnchor.constraint(equalToConstant: 50),
             
             //label
-            label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor,constant: 8),
-            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -4),
-            label.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 2),
-            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -2),
+            textView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor,constant: 8),
+            textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -4),
+            textView.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 2),
+            textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -2),
             
         ])
     }

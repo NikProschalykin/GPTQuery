@@ -57,8 +57,8 @@ final class ChatController: BaseController {
         super.configure()
         title = "Today"
         footer.sendButton.chatVC = self
-        addNavBarImageButton(at: .left, with: UIImage(systemName: "gearshape")!)
-        addNavBarTextButton(at: .right, with: "clear")
+        addNavBarButton(at: .left, with: UIImage(systemName: "list.bullet.clipboard")!, with: "menu")
+        addNavBarButton(at: .right, with: nil, with: "clear")
     }
 //MARK: - ADD VIEWS
     override func addViews() {
@@ -153,14 +153,11 @@ extension ChatController {
     }
 }
 
-//MARK: - Present VC на половину экрана
+//MARK: - Открытие меню
 extension ChatController {
     override func navBarLeftButtonHandler() {
-        let vc = SettingsController()
-        if let presentationController = vc.presentationController as? UISheetPresentationController {
-                    presentationController.detents = [.medium()]
-                }
-        present(vc, animated: true)
+        let vc = MenuController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

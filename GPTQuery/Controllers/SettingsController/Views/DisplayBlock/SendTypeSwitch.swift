@@ -29,6 +29,15 @@ extension SendTypeSwitch {
 
 @objc extension SendTypeSwitch {
     func switchAction(sender: UISwitch) {
-        sender.isOn ? (Settings.shared.messageMode = .stream) : (Settings.shared.messageMode = .full)
+
+        let userDefaults = UserDefaults.standard
+        
+        if sender.isOn {
+            Settings.shared.messageMode = .stream
+            userDefaults.set(Mode.stream.rawValue, forKey: "messageMode")
+        } else {
+            Settings.shared.messageMode = .full
+            userDefaults.set(Mode.full.rawValue, forKey: "messageMode")
+        }
     }
 }

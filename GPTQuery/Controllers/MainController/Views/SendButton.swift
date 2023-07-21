@@ -54,7 +54,7 @@ extension SendButton: UITextViewDelegate {
         
         switch textView.contentSize.height {
         case 56..<388:
-            chatVC?.heightFooter.constant = textView.contentSize.height
+            chatVC?.heightFooter.constant = textView.contentSize.height + 8
         case 388...:
             chatVC?.heightFooter.constant = 388
         default:
