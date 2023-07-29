@@ -26,7 +26,6 @@ extension StartMessage {
         translatesAutoresizingMaskIntoConstraints = false
         font = Resorces.Font.helveticaRegular(with: 20)
         numberOfLines = 0
-        
     }
 }
 

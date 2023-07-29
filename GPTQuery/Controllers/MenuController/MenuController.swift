@@ -6,15 +6,29 @@
 //
 
 import UIKit
+import RealmSwift
 
 final class MenuController: BaseController {
     //MARK: - PROPERTIES
     let tableView = HistoryTableView()
     
+    var chatsModel: [ChatModel] = []
+    var realmToken: NotificationToken?
+    
+    var dateChatsArray: [[ChatModel]] = []
+    
+    let realmServise = RealmService()
+    
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupData()
+        realmToken = realmServise.localRealm.observe({ [weak self] _,realm in
+            self?.setupData()
+        })
+        
     }
+    
     
     //MARK: - ADD VIEWS
     override func addViews() {
@@ -27,6 +41,7 @@ final class MenuController: BaseController {
         super.configure()
         title = "Menu"
         addNavBarButton(at: .right, with: UIImage(systemName: "gearshape")!)
+        addNavBarButton(at: .left, with: UIImage(systemName: "plus"))
     }
     
     
@@ -57,7 +72,63 @@ extension MenuController {
 }
 
 extension MenuController {
-    
+    override func navBarLeftButtonHandler() {
+        let vc = ChatController()
+        navigationController?.pushViewController(vc, animated: true)
+        
+    }
 }
 
+//MARK: - Подготовка данных из бд
+extension MenuController {
+    private func setupData() {
+        chatsModel = realmServise.localRealm.objects(ChatModel.self).map({ $0 })
+        print("Чатов в моделе: \(chatsModel.count)")
 
+        let sorted = chatsModel.sorted(by: {
+            return $0.date > $1.date
+        })
+
+
+        var dateChatsDicts: [String : [ChatModel]] = [:]
+
+        sorted.forEach({
+            let date = $0.date
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd/MM/YY"
+            
+            dateChatsDicts[dateFormatter.string(from: date)] = []
+        })
+
+        dateChatsDicts.keys.forEach({ key in
+            sorted.forEach({ model in
+                if isSameDates(firstDate: key, secondDate: model.date) {
+                    var buf: [ChatModel] = dateChatsDicts[key] ?? []
+                    buf.append(model)
+                    dateChatsDicts[key] = buf
+                }
+            })
+        })
+
+        dateChatsArray.removeAll()
+        for key in dateChatsDicts.keys {
+            dateChatsArray.append(dateChatsDicts[key] ?? [])
+        }
+        
+        dateChatsArray = dateChatsArray.sorted(by: {
+            return $0.first!.date > $1.first!.date
+        })
+
+        tableView.dateChatsArray = dateChatsArray
+        
+        tableView.reloadData()
+    }
+    
+    private func isSameDates(firstDate: String, secondDate: Date) -> Bool {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/YY"
+        
+        return firstDate == dateFormatter.string(from: secondDate) ? true : false
+    }
+    
+}

@@ -15,8 +15,9 @@ final class ChatCell: UITableViewCell {
     private lazy var timeLabel: UILabel = {
         let label = UILabel()
         
-        label.text = "Time"
-        label.font = Resorces.Font.helveticaRegular(with: 18)
+        
+        label.font = Resorces.Font.helveticaRegular(with: 12)
+        label.textColor = Resorces.Colors.titleSecondaryLabel
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -26,8 +27,7 @@ final class ChatCell: UITableViewCell {
     private lazy var lastResponceLabel: UILabel = {
         let label = UILabel()
         
-        label.text = "last Responce: 1 line\n2line"
-        label.font = Resorces.Font.helveticaRegular(with: 18)
+        label.font = Resorces.Font.helveticaRegular(with: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         
@@ -47,13 +47,29 @@ final class ChatCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        //code
+        timeLabel.text = nil
+        lastResponceLabel.text = nil
     }
     
-    func setupCell() {
-        //code
+    func setupCell(model: ChatModel) {
+        timeLabel.text = getTime(date: model.date)
+        
+        let responceText: NSMutableAttributedString = {
+            let string = "Last Responce:\n" + (model.messages.last?.request ?? "")
+            let text = NSMutableAttributedString(string: string)
+            
+            let rangeGrayText = NSString(string: string).range(of: "Last Responce:",options: String.CompareOptions.caseInsensitive)
+            
+            text.addAttributes([.foregroundColor: Resorces.Colors.titleSecondaryLabel,
+                                .font: Resorces.Font.helveticaRegular(with: 12)],
+                               range: rangeGrayText)
+        
+            return text
+        }()
+        
+        lastResponceLabel.attributedText = responceText
+        
     }
-    
 }
 
 extension ChatCell {
@@ -72,23 +88,28 @@ extension ChatCell {
     private func layout() {
         
         NSLayoutConstraint.activate([
+            
             //timeLabel
-            timeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2),
-            timeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            timeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            timeLabel.heightAnchor.constraint(equalToConstant: 50),
+            timeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
+            timeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
             
             //lastResponceLabel
-            lastResponceLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 8),
-            lastResponceLabel.leadingAnchor.constraint(equalTo: timeLabel.leadingAnchor),
-            lastResponceLabel.trailingAnchor.constraint(equalTo: timeLabel.trailingAnchor),
-            lastResponceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2),
+            lastResponceLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2),
+            lastResponceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            lastResponceLabel.trailingAnchor.constraint(equalTo: timeLabel.leadingAnchor, constant: -4),
+            lastResponceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
         ])
     }
 }
 
-//MARK: - Views
+//MARK: - only time from date
 extension ChatCell {
     
+    private func getTime(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        
+        return dateFormatter.string(from: date)
+    }
     
 }
