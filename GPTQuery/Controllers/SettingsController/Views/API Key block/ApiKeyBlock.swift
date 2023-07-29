@@ -11,7 +11,7 @@ final class ApiKeyBlock: BaseView {
     private let keyLabel = KeyLabel()
     private let stateKeyLabel = StateKeyLabel()
     let setupButton = SetupKeyButton()
-    private let copyButton = CopyKeyButton()
+    private let copyButton = CopyButton(text: Settings.shared.apiKey)
     
 }
 extension ApiKeyBlock {

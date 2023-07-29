@@ -11,12 +11,18 @@ import UIKit
 
 final class ChatController: BaseController {
     
+    //MARK: - DB properties
+    
+    var realmServise = RealmService()
+    var currChatModel: ChatModel?
+    
     //MARK: - Layout properties
     var heightFooter = NSLayoutConstraint()
     
     
     //MARK: - PROPERTIES
-    public static var responseList = [(String,String,Bool)]()
+    var responseList = [(String,String,Bool)]()
+    
     
     private let notificationCenter = NotificationCenter.default
     
@@ -38,6 +44,14 @@ final class ChatController: BaseController {
         notificationCenter.addObserver(self, selector: #selector(keyBoardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         notificationCenter.addObserver(self, selector: #selector(keyBoardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        setupRealmToController()
+    }
+    
+//MARK: - ViewWillDissappear
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        updateRealmBeforeLeaveVC()
     }
     
 //MARK: - ViewDidDissappear
@@ -51,14 +65,19 @@ final class ChatController: BaseController {
 //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        collectionView.parentChatController = self
+       
     }
 //MARK: - CONFIGURE
     override func configure() {
         super.configure()
-        title = "Today"
-        footer.sendButton.chatVC = self
-        addNavBarImageButton(at: .left, with: UIImage(systemName: "gearshape")!)
-        addNavBarTextButton(at: .right, with: "clear")
+        title = setupTitle()
+        footer.sendButton.parentChatController = self
+        
+        (currChatModel != nil) ? (startLabel.isHidden = true) : (startLabel.isHidden = false)
+        
+        addNavBarButton(at: .right, with: nil, with: "clear")
     }
 //MARK: - ADD VIEWS
     override func addViews() {
@@ -136,6 +155,18 @@ final class ChatController: BaseController {
     }
 }
 
+//MARK: -  Установка заголовка
+extension ChatController {
+    private func setupTitle() -> String {
+        guard let date = currChatModel?.date else { return "Today" }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/YY"
+        
+        return dateFormatter.string(from: date)
+    }
+}
+
 //MARK: - Funcs for sendButton
 extension ChatController {
     func reloadColectionView() {
@@ -153,33 +184,63 @@ extension ChatController {
     }
 }
 
-//MARK: - Present VC на половину экрана
-extension ChatController {
-    override func navBarLeftButtonHandler() {
-        let vc = SettingsController()
-        if let presentationController = vc.presentationController as? UISheetPresentationController {
-                    presentationController.detents = [.medium()]
-                }
-        present(vc, animated: true)
-    }
-}
 
 //MARK: - Очистка чата
 extension ChatController {
     override func navBarRightButtonHandler() {
-        guard !ChatController.responseList.isEmpty else { return }
+        guard !responseList.isEmpty else { return }
         Settings.shared.chatGptApi.deleteHistoryList()
-        ChatController.responseList.removeAll()
+        responseList.removeAll()
         collectionView.reloadData()
-        startLabel.isHidden = false
     }
 }
 
 extension ChatController {
-     func regenerateResponce() {
+     func regenerateResponse() {
         self.footer.sendButton.SendMessage(isnewMessage: false)
     }
-    
 }
+
+
+//MARK: - ViewController lifecycle with realm
+extension ChatController {
+    
+    private func setupRealmToController() {
+        if let currChatModel = currChatModel {
+            for message in currChatModel.messages {
+                responseList.append((message.request,
+                                     message.response,
+                                     message.isSuccess))
+            }
+        } else {
+            currChatModel = ChatModel()
+        }
+    }
+    
+    private func updateRealmBeforeLeaveVC() {
+        
+        guard let currChatModel = currChatModel  else { return }
+        try? realmServise.localRealm.write {
+        
+            currChatModel.messages.removeAll()
+            for tuple in responseList {
+                let message = ChatMessage()
+                message.request = tuple.0
+                message.response = tuple.1
+                message.isSuccess = tuple.2
+                currChatModel.messages.append(message)
+            }
+    
+            currChatModel.date = Date()
+            realmServise.localRealm.add(currChatModel,update: .all)
+           
+            guard !responseList.isEmpty else {
+                realmServise.localRealm.delete(currChatModel.self)
+                return
+            }
+        }
+    }
+}
+
 
 

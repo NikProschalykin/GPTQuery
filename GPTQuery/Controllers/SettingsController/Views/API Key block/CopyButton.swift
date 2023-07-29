@@ -7,17 +7,16 @@
 
 import UIKit
 
-final class CopyKeyButton: UIButton {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+final class CopyButton: UIButton {
+    var textToCopy: String?
+    convenience init(text: String?) {
+        self.init(frame: .zero)
+        self.textToCopy = text 
         configure()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        
     }
 }
-extension CopyKeyButton {
+extension CopyButton {
     private func configure(){
         setImage(UIImage(systemName: "doc.on.doc"), for: .normal)
         //setTitle("Copy", for: .normal)
@@ -28,11 +27,12 @@ extension CopyKeyButton {
     }
     
     @objc func buttonTouched() {
-        UIPasteboard.general.string = Settings.shared.apiKey
+        UIPasteboard.general.string = textToCopy
         UIView.animate(withDuration: 1.0, animations: {
             self.setImage(UIImage(systemName: "checkmark"), for: .normal)
             self.tintColor = .systemGreen
         })
+        print("text copied: \(textToCopy ?? "")")
        
     }
 }

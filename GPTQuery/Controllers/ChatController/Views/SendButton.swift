@@ -9,7 +9,8 @@ import UIKit
 
 final class SendButton: UIButton {
     
-    weak public var chatVC: ChatController?
+    let realmService = RealmService()
+    weak public var parentChatController: ChatController?
     private var message: String?
     
     override init(frame: CGRect) {
@@ -35,10 +36,10 @@ final class SendButton: UIButton {
 @objc extension SendButton {
     func buttonAction() {
         print("tapped")
-        chatVC?.heightFooter.constant = 45
-        chatVC?.hideKeyboard()
-        chatVC?.deleteTextInTextView()
-        chatVC?.hideStartLabel()
+        parentChatController?.heightFooter.constant = 45
+        parentChatController?.hideKeyboard()
+        parentChatController?.deleteTextInTextView()
+        parentChatController?.hideStartLabel()
             
         SendMessage()
         self.isEnabled = false
@@ -54,15 +55,15 @@ extension SendButton: UITextViewDelegate {
         
         switch textView.contentSize.height {
         case 56..<388:
-            chatVC?.heightFooter.constant = textView.contentSize.height
+            parentChatController?.heightFooter.constant = textView.contentSize.height + 8
         case 388...:
-            chatVC?.heightFooter.constant = 388
+            parentChatController?.heightFooter.constant = 388
         default:
-            chatVC?.heightFooter.constant = 45
+            parentChatController?.heightFooter.constant = 45
         }
         
         //print(textView.contentSize.height)
-        chatVC?.view.layoutIfNeeded()
+        parentChatController?.view.layoutIfNeeded()
     }
 }
 
@@ -88,38 +89,58 @@ extension SendButton {
 extension SendButton {
         
     func SendMessage(isnewMessage: Bool = true) {
+        guard let parentChatController = parentChatController else { fatalError("nil vc") }
+        
         Task {
             do {
-                isnewMessage ? ChatController.responseList.append((message!,"",true)) : (ChatController.responseList[ChatController.responseList.count-1] = (message!,"", true))
-                chatVC?.reloadColectionView()
-                chatVC?.moveToLastCell()
+                isnewMessage ? parentChatController.responseList.append((message!,"",true)) : (parentChatController.responseList[parentChatController.responseList.count-1] = (message!,"", true))
+                parentChatController.reloadColectionView()
+                parentChatController.moveToLastCell()
                 
                 //Полное сообщение
                 if Settings.shared.messageMode == .full {
                     let text = try await Settings.shared.chatGptApi.sendMessage(message!)
                     print(text)
-                    ChatController.responseList[ChatController.responseList.count-1] = (message!,text, true)
-                    chatVC?.reloadColectionView()
-                    chatVC?.moveToLastCell()
+                    parentChatController.responseList[parentChatController.responseList.count-1] = (message!,text, true)
+                    parentChatController.reloadColectionView()
+                    parentChatController.moveToLastCell()
                 } else {
                 //Потоковое
                     let stream = try await Settings.shared.chatGptApi.sendMessageStream(text: message!)
-                    ChatController.responseList[ChatController.responseList.count-1] = (message!,"",true)
-                    chatVC?.moveToLastCell()
+                    parentChatController.responseList[parentChatController.responseList.count-1] = (message!,"",true)
+                    parentChatController.moveToLastCell()
                     var text = ""
                     for try await line in stream {
                         print(line,terminator: "")
                         text += line
-                        ChatController.responseList[ChatController.responseList.count-1] = (message!,text, true)
-                        chatVC?.reloadColectionView()
+                        parentChatController.responseList[parentChatController.responseList.count-1] = (message!,text, true)
+                        parentChatController.reloadColectionView()
                     }
                 }
                 message = ""
             } catch {
-                ChatController.responseList[ChatController.responseList.count-1] = (message!,error.localizedDescription, false)
-                chatVC?.reloadColectionView()
-                chatVC?.moveToLastCell()
+                parentChatController.responseList[parentChatController.responseList.count-1] = (message!,error.localizedDescription, false)
+                parentChatController.reloadColectionView()
+                parentChatController.moveToLastCell()
             }
+//            guard let chat = parentChatController.currChatModel else { return }
+//
+//            try? realmService.localRealm.write {
+//
+//                chat.messages.removeAll()
+//                for tuple in parentChatController.responseList {
+//                    let message = ChatMessage()
+//                    message.request = tuple.0
+//                    message.response = tuple.1
+//                    message.isSuccess = tuple.2
+//                    chat.messages.append(message)
+//                }
+//
+//                chat.date = Date()
+//                realmService.localRealm.add(chat,update: .all)
+//
+//               //realmService.localRealm.deleteAll()
+//            }
         }
     }
 }

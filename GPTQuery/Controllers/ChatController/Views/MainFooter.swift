@@ -9,7 +9,7 @@ import UIKit
 
 final class MainFooter: BaseView {
     
-    let textView = MessageTextView()
+    let textView = InputMessageTextView()
     let sendButton = SendButton()
     
     override init(frame: CGRect) {

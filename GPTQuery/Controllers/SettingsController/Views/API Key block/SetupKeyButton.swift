@@ -50,8 +50,21 @@ extension SetupKeyButton {
         
         let okAction = UIAlertAction(title: "Done", style: .default) { [weak alertController] _ in
             let key = alertController?.textFields![0].text ?? ""
-            print(key.count)
-            key.count == 51 ? Settings.shared.apiKey = key : self.wrongKey()
+            
+            if key.count == 51 {
+            print(key)
+                do {
+                   let status = try KeyChainManager.updateToken(token: key.data(using: .utf8) ?? Data(), for: "admin")
+                    Settings.shared.apiKey = Settings.setupToken(for: "admin")
+                    print(status)
+                } catch {
+                    print(error)
+                }
+                
+                //Settings.shared.apiKey = key
+            }  else {
+                self.wrongKey()
+            }
         }
         alertController.addAction(okAction)
         

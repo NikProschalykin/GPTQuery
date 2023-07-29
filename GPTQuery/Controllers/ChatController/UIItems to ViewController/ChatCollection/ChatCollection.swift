@@ -9,6 +9,8 @@ import UIKit
 
 final class ChatCollection: UICollectionView {
     
+    weak var parentChatController: ChatController?
+    
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
         configure()
@@ -29,32 +31,46 @@ final class ChatCollection: UICollectionView {
         register(RegenerateFooter.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: RegenerateFooter.identifier)
     }
     
+    
     //MARK: - Расчет размера ячейки
     private func calculateSize(to indexPath: IndexPath) -> CGSize {
-        var text: String = "\n"
+        guard let parentChatController = parentChatController else { fatalError("nil vc") }
+        var text: String = ""
         switch indexPath.item {
-        case 0: text += ChatController.responseList[indexPath.section].0
-        case 1: text += ChatController.responseList[indexPath.section].1
+        case 0: text += parentChatController.responseList[indexPath.section].0
+        case 1: text += parentChatController.responseList[indexPath.section].1
         default: break
         }
         
-        let height = (text.heightWithConstrainedWidth(width: UIScreen.main.bounds.width - 16, font: Resorces.Font.helveticaRegular(with: 18)))
+        let height = calculateTextViewHeight(text: text, font: Resorces.Font.helveticaRegular(with: 17), width: UIScreen.main.bounds.width - 80) + 4
+
         
+        let width = UIScreen.main.bounds.width - 16
+        
+        print("Высота ячейки: \(height)", text)
         switch indexPath.item {
         case 0:
-            print(height + 16, text)
-            return CGSize(width: UIScreen.main.bounds.width - 16, height: height + 16)
+            return CGSize(width: width, height: height)
         case 1:
-            print(height + 20, text)
-                return CGSize(width: UIScreen.main.bounds.width - 16, height: height + 20)
+            return CGSize(width: width, height: height)
         default: return .zero
         }
     }
     
+    private func calculateTextViewHeight(text: String, font: UIFont, width: CGFloat) -> CGFloat {
+        let textView = UITextView(frame: CGRect(x: 0, y: 0, width: width, height: .greatestFiniteMagnitude))
+            textView.font = font
+            textView.text = text
+            textView.sizeToFit()
+        
+        return textView.frame.height < 54 ? 54 : textView.frame.height
+    }
+    
     //MARK: - Расчет размера футера
     private func calculateFooterSize(to section: Int) -> CGSize {
-        if ChatController.responseList[section].1.isBlank { return CGSize(width: 50, height: 50) }
-        if !ChatController.responseList[section].2 { return CGSize(width: 50, height: 50) }
+        guard let parentChatController = parentChatController else { fatalError("nil vc") }
+        if parentChatController.responseList[section].1.isBlank { return CGSize(width: 50, height: 50) }
+        if !parentChatController.responseList[section].2 { return CGSize(width: 50, height: 50) }
         return .zero
     }
 }
@@ -64,30 +80,34 @@ final class ChatCollection: UICollectionView {
 extension ChatCollection: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        ChatController.responseList.count
+        guard let parentChatController = parentChatController else { fatalError("nil vc") }
+        return parentChatController.responseList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        ChatController.responseList[section].1.isBlank ? 1 : 2
+        guard let parentChatController = parentChatController else { fatalError("nil vc") }
+       return parentChatController.responseList[section].1.isBlank ? 1 : 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let parentChatController = parentChatController else { fatalError("nil vc") }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MessageCell.identifier, for: indexPath) as! MessageCell
         
         if indexPath.item == 0 {
-            cell.setupCell(text: ChatController.responseList[indexPath.section].0, author: .user, isSuccess: true)
+            cell.setupCell(text: parentChatController.responseList[indexPath.section].0, author: .user, isSuccess: true)
         } else {
-            cell.setupCell(text: ChatController.responseList[indexPath.section].1, author: .assistant, isSuccess: ChatController.responseList[indexPath.section].2)
+            cell.setupCell(text: parentChatController.responseList[indexPath.section].1, author: .assistant, isSuccess: parentChatController.responseList[indexPath.section].2)
         }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let parentChatController = parentChatController else { fatalError("nil vc") }
         
         switch kind {
             case UICollectionView.elementKindSectionFooter:
-            if ChatController.responseList[indexPath.section].2 {
+            if parentChatController.responseList[indexPath.section].2 {
                 let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: IdicatorFooter.identifier, for: indexPath)
                 
                 return footerView

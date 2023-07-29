@@ -50,7 +50,7 @@ extension RegenerateFooter {
 @objc extension RegenerateFooter {
     func buttonAction() {
         let vc = self.parentViewController as? ChatController
-        vc?.regenerateResponce()
+        vc?.regenerateResponse()
     }
 }
 
