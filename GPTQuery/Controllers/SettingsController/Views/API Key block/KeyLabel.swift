@@ -1,17 +1,9 @@
-//
-//  KeyLabel.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 20.06.2023.
-//
-
 import UIKit
 
 final class KeyLabel: UILabel {
     
     private lazy var tapGesture = UITapGestureRecognizer(target: self, action: #selector(showHideKey))
     private var isTextHide = true
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -1,14 +1,6 @@
-//
-//  MainFooter.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 15.06.2023.
-//
-
 import UIKit
 
 final class MainFooter: BaseView {
-    
     let textView = InputMessageTextView()
     let sendButton = SendButton()
     
@@ -22,10 +14,8 @@ final class MainFooter: BaseView {
 }
 
 extension MainFooter {
-    
     override func configure() {
         super.configure()
-        
         backgroundColor = .systemGray5
         textView.delegate = sendButton.self
         addSeparator(at: .top, color: Resorces.Colors.separator,weight: 1)
@@ -33,15 +23,13 @@ extension MainFooter {
     
     override func addViews() {
         super.addViews()
-        
-        
         addSubview(sendButton)
         addSubview(textView)
         
     }
+    
     override func layoutViews() {
         super.layoutViews()
-        
         NSLayoutConstraint.activate([
             
             textView.topAnchor.constraint(equalTo: topAnchor,constant: 8),
@@ -53,7 +41,6 @@ extension MainFooter {
             sendButton.bottomAnchor.constraint(equalTo: bottomAnchor),
             sendButton.widthAnchor.constraint(equalToConstant: 35),
             sendButton.heightAnchor.constraint(equalToConstant: 35),
-        
         ])
     }
 }

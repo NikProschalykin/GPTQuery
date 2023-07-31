@@ -1,17 +1,10 @@
-//
-//  RegenerateFooter.swift
-//  GPTQuery
-//
-//  Created by Николай Прощалыкин on 12.07.2023.
-//
-
 import UIKit
 
 //MARK: - regenerate responce button
 final class RegenerateFooter: UICollectionReusableView {
-    
     let button = UIButton(type: .system)
     let sendButton = SendButton()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -20,7 +13,6 @@ final class RegenerateFooter: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 extension RegenerateFooter {

@@ -1,16 +1,8 @@
-//
-//  DisplayBlock.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 21.06.2023.
-//
-
 import UIKit
+
 final class DisplayBlock: BaseView {
-    
     private let typeSwitch = SendTypeSwitch()
     private let switchLabel = SwitchLabel()
-    
 }
 extension DisplayBlock {
     override func configure() {
@@ -19,11 +11,13 @@ extension DisplayBlock {
         translatesAutoresizingMaskIntoConstraints = false
         layer.cornerRadius = 10
     }
+    
     override func addViews() {
         super.addViews()
         addSubview(typeSwitch)
         addSubview(switchLabel)
     }
+    
     override func layoutViews() {
         super.layoutViews()
         NSLayoutConstraint.activate([

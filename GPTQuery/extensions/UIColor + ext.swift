@@ -1,10 +1,3 @@
-//
-//  UIColor + ext.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 15.06.2023.
-//
-
 import UIKit
 
 //MARK: - HEX to UIColor

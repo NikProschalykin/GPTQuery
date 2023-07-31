@@ -1,15 +1,7 @@
-//
-//  KeyChainManager.swift
-//  GPTQuery
-//
-//  Created by Николай Прощалыкин on 24.07.2023.
-//
-
 import Foundation
 
 //MARK: - protocol KeyChainManagerProtocol
 protocol KeyChainManagerProtocol {
-    
     static func save(token: Data, account: String) throws -> String
     static func getToken(for account: String) throws -> Data?
     static func updateToken(token: Data,for account: String) throws -> String
@@ -34,7 +26,7 @@ final class KeyChainManager: KeyChainManagerProtocol {
             kSecValueData: token
         ]
         
-        let status = SecItemAdd(query as CFDictionary , nil )
+        let status = SecItemAdd(query as CFDictionary , nil)
         
         guard status != errSecDuplicateItem else {
             throw KeyChainError.duplicateItem

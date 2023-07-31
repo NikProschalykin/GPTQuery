@@ -1,10 +1,3 @@
-//
-//  ChatAPI.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 14.06.2023.
-//
-
 import Foundation
 
 class ChatAPI {
@@ -40,7 +33,7 @@ class ChatAPI {
         }
     
     
-    init(apiKey: String, model: String = "gpt-3.5-turbo", systemPrompt: String = "You are a helpful assistant", temperature: Double = 0.5){
+    init(apiKey: String, model: String = "gpt-3.5-turbo", systemPrompt: String = "You are a helpful assistant", temperature: Double = 0.5) {
         self.apiKey = apiKey
         self.model = model
         self.systemMessage = .init(role: "system", content: systemPrompt)
@@ -150,12 +143,9 @@ extension String: CustomNSError {
     
     public var errorUserInfo: [String : Any] {
         [
-        
             NSLocalizedDescriptionKey: self
-            
         ]
     }
-    
 }
 
 

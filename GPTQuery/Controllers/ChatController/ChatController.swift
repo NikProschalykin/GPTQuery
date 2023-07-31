@@ -1,28 +1,17 @@
-//
-//  ViewController.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 14.06.2023.
-//
-
 import UIKit
 
 // MARK: - VIEWCONTROLLER
-
 final class ChatController: BaseController {
     
-    //MARK: - DB properties
-    
+    //MARK: - realm properties
     var realmServise = RealmService()
     var currChatModel: ChatModel?
     
     //MARK: - Layout properties
     var heightFooter = NSLayoutConstraint()
     
-    
     //MARK: - PROPERTIES
     var responseList = [(String,String,Bool)]()
-    
     
     private let notificationCenter = NotificationCenter.default
     
@@ -36,13 +25,10 @@ final class ChatController: BaseController {
     //MARK: - GESTURES
     private lazy var tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
     
-    
 //MARK: - ViewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         notificationCenter.addObserver(self, selector: #selector(keyBoardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
         notificationCenter.addObserver(self, selector: #selector(keyBoardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         setupRealmToController()
@@ -57,7 +43,6 @@ final class ChatController: BaseController {
 //MARK: - ViewDidDissappear
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
         notificationCenter.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         notificationCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -65,40 +50,30 @@ final class ChatController: BaseController {
 //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         collectionView.parentChatController = self
-       
     }
 //MARK: - CONFIGURE
     override func configure() {
         super.configure()
         title = setupTitle()
         footer.sendButton.parentChatController = self
-        
         (currChatModel != nil) ? (startLabel.isHidden = true) : (startLabel.isHidden = false)
-        
         addNavBarButton(at: .right, with: nil, with: "clear")
     }
 //MARK: - ADD VIEWS
     override func addViews() {
         super.addViews()
-        
+        view.addGestureRecognizer(tapGesture)
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        contentView.addSubview(footer)
-        contentView.addSubview(collectionView)
-        contentView.addSubview(startLabel)
-        
-        view.addGestureRecognizer(tapGesture)
+        [footer, collectionView, startLabel].forEach({ contentView.addSubview($0) })
     }
 //MARK: - LAYOUT
     override func layoutViews() {
         super.layoutViews()
-        
         heightFooter = footer.heightAnchor.constraint(equalToConstant: 45)
-        
+    
         NSLayoutConstraint.activate([
-            
             //scrollView
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -160,10 +135,7 @@ extension ChatController {
     private func setupTitle() -> String {
         guard let date = currChatModel?.date else { return "Today" }
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/YY"
-        
-        return dateFormatter.string(from: date)
+        return date.getIntervalFromToCurrentDate(date: date)
     }
 }
 
@@ -172,18 +144,20 @@ extension ChatController {
     func reloadColectionView() {
         collectionView.reloadData()
     }
+    
     func deleteTextInTextView() {
         footer.textView.text = Resorces.Strings.ChatStrings.textViewPlaceHolder
         footer.textView.textColor = UIColor.lightGray
     }
+    
     func moveToLastCell() {
         collectionView.scrollToLast()
     }
+    
     func hideStartLabel() {
         startLabel.isHidden = true
     }
 }
-
 
 //MARK: - Очистка чата
 extension ChatController {
@@ -201,10 +175,8 @@ extension ChatController {
     }
 }
 
-
 //MARK: - ViewController lifecycle with realm
 extension ChatController {
-    
     private func setupRealmToController() {
         if let currChatModel = currChatModel {
             for message in currChatModel.messages {
@@ -218,11 +190,13 @@ extension ChatController {
     }
     
     private func updateRealmBeforeLeaveVC() {
-        
         guard let currChatModel = currChatModel  else { return }
-        try? realmServise.localRealm.write {
         
+        let isChatChanges = currChatModel.messages.count < responseList.count ? true : false
+        
+        try? realmServise.localRealm.write {
             currChatModel.messages.removeAll()
+            
             for tuple in responseList {
                 let message = ChatMessage()
                 message.request = tuple.0
@@ -231,7 +205,7 @@ extension ChatController {
                 currChatModel.messages.append(message)
             }
     
-            currChatModel.date = Date()
+            if isChatChanges { currChatModel.date = Date() }
             realmServise.localRealm.add(currChatModel,update: .all)
            
             guard !responseList.isEmpty else {

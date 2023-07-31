@@ -1,10 +1,3 @@
-//
-//  String + ext.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 19.06.2023.
-//
-
 import UIKit
 
 //MARK: - Height of text

@@ -1,15 +1,8 @@
-//
-//  IdicatorFooter.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 22.06.2023.
-//
-
 import UIKit
 
 final class IdicatorFooter: UICollectionReusableView {
-    
     let activityIndicator = UIActivityIndicatorView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -22,7 +15,6 @@ final class IdicatorFooter: UICollectionReusableView {
 
 extension IdicatorFooter {
     private func configure() {
-        
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.startAnimating()
         activityIndicator.style = .large

@@ -1,14 +1,6 @@
-//
-//  MessageLabel.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 16.06.2023.
-//
-
 import UIKit
 
 final class MessageTextView: UITextView {
-    
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         configure()

@@ -1,10 +1,3 @@
-//
-//  Settings.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 21.06.2023.
-//
-
 import UIKit
 
 enum Mode: Int {
@@ -24,7 +17,9 @@ final class Settings {
     lazy var chatGptApi = ChatAPI(apiKey: apiKey)
     
     private init() {}
-    
+}
+
+extension Settings {
     static func setupToken(for account: String) -> String {
         var token: String = ""
         
