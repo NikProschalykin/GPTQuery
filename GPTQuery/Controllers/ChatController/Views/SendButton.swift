@@ -2,8 +2,8 @@ import UIKit
 
 final class SendButton: UIButton {
     let realmService = RealmService()
-    weak public var parentChatController: ChatController?
-    private var message: String?
+    weak var delegate: SendButtonDelegate?
+    var message: String?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,91 +27,50 @@ final class SendButton: UIButton {
 
 @objc extension SendButton {
     func buttonAction() {
-        print("tapped")
-        parentChatController?.heightFooter.constant = 45
-        parentChatController?.hideKeyboard()
-        parentChatController?.deleteTextInTextView()
-        parentChatController?.hideStartLabel()
+        delegate?.SendButtonTapped()
+        
         SendMessage()
         self.isEnabled = false
-    }
-}
-
-//MARK: - Ввод текста + увеличение TextView от контента
-extension SendButton: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        message = textView.text
-
-        !textView.text.isBlank ? (self.isEnabled = true) : (self.isEnabled = false)
-        
-        switch textView.contentSize.height {
-        case 56..<388:
-            parentChatController?.heightFooter.constant = textView.contentSize.height + 8
-        case 388...:
-            parentChatController?.heightFooter.constant = 388
-        default:
-            parentChatController?.heightFooter.constant = 45
-        }
-        
-        parentChatController?.view.layoutIfNeeded()
-    }
-}
-
-//MARK: - CustomPlaceHolder
-extension SendButton {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == UIColor.lightGray {
-            textView.text = nil
-            textView.textColor = Resorces.Colors.titleLabel
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        textView.text.isBlank ? (self.isEnabled = false) : (self.isEnabled = true)
-        if textView.text.isEmpty {
-            textView.text = Resorces.Strings.ChatStrings.textViewPlaceHolder
-            textView.textColor = UIColor.lightGray
-        }
     }
 }
 
 //MARK: - SEND MESSAGE TO CHATGPT API
 extension SendButton {
     func SendMessage(isnewMessage: Bool = true) {
-        guard let parentChatController = parentChatController else { fatalError("nil vc") }
+        guard let delegate = delegate else { fatalError("nil vc") }
         
         Task {
             do {
-                isnewMessage ? parentChatController.responseList.append((message!,"",true)) : (parentChatController.responseList[parentChatController.responseList.count-1] = (message!,"", true))
-                parentChatController.reloadColectionView()
-                parentChatController.moveToLastCell()
+                isnewMessage ? delegate.responseList.append((message!,"",true)) : (delegate.responseList[delegate.responseList.count-1] = (message!,"", true))
+                delegate.reloadCollectionView()
+                delegate.moveToLastCell()
                 
                 //Полное сообщение
                 if Settings.shared.messageMode == .full {
                     let text = try await Settings.shared.chatGptApi.sendMessage(message!)
                     print(text)
-                    parentChatController.responseList[parentChatController.responseList.count-1] = (message!,text, true)
-                    parentChatController.reloadColectionView()
-                    parentChatController.moveToLastCell()
+                    delegate.responseList[delegate.responseList.count-1] = (message!,text, true)
+                    delegate.reloadCollectionView()
+                    delegate.moveToLastCell()
                 } else {
                 //Потоковое
                     let stream = try await Settings.shared.chatGptApi.sendMessageStream(text: message!)
-                    parentChatController.responseList[parentChatController.responseList.count-1] = (message!,"",true)
-                    parentChatController.moveToLastCell()
+                    delegate.responseList[delegate.responseList.count-1] = (message!,"",true)
+                    delegate.moveToLastCell()
                     var text = ""
                     for try await line in stream {
                         print(line,terminator: "")
                         text += line
-                        parentChatController.responseList[parentChatController.responseList.count-1] = (message!,text, true)
-                        parentChatController.reloadColectionView()
+                        delegate.responseList[delegate.responseList.count-1] = (message!,text, true)
+                        delegate.reloadCollectionView()
                     }
                 }
                 
                 message = ""
             } catch {
-                parentChatController.responseList[parentChatController.responseList.count-1] = (message!,error.localizedDescription, false)
-                parentChatController.reloadColectionView()
-                parentChatController.moveToLastCell()
+                delegate.responseList[delegate.responseList.count-1] = (message!,error.localizedDescription, false)
+                delegate.reloadCollectionView()
+                delegate.moveToLastCell()
             }
         }
     }

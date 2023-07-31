@@ -1,7 +1,7 @@
 import UIKit
 
 final class ChatCollection: UICollectionView {
-    weak var parentChatController: ChatController?
+    weak var VCdelegate: ChatCollectionDelegate?
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -26,11 +26,11 @@ final class ChatCollection: UICollectionView {
     
     //MARK: - Расчет размера ячейки
     private func calculateSize(to indexPath: IndexPath) -> CGSize {
-        guard let parentChatController = parentChatController else { fatalError("nil vc") }
+        guard let VCdelegate = VCdelegate else { fatalError("nil vc") }
         var text: String = ""
         switch indexPath.item {
-        case 0: text += parentChatController.responseList[indexPath.section].0
-        case 1: text += parentChatController.responseList[indexPath.section].1
+        case 0: text += VCdelegate.responseList[indexPath.section].0
+        case 1: text += VCdelegate.responseList[indexPath.section].1
         default: break
         }
         
@@ -56,9 +56,9 @@ final class ChatCollection: UICollectionView {
     
     //MARK: - Расчет размера футера
     private func calculateFooterSize(to section: Int) -> CGSize {
-        guard let parentChatController = parentChatController else { fatalError("nil vc") }
-        if parentChatController.responseList[section].1.isBlank { return CGSize(width: 50, height: 50) }
-        if !parentChatController.responseList[section].2 { return CGSize(width: 50, height: 50) }
+        guard let VCdelegate = VCdelegate else { fatalError("nil vc") }
+        if VCdelegate.responseList[section].1.isBlank { return CGSize(width: 50, height: 50) }
+        if !VCdelegate.responseList[section].2 { return CGSize(width: 50, height: 50) }
         return .zero
     }
 }
@@ -66,34 +66,34 @@ final class ChatCollection: UICollectionView {
 //MARK: - DATA SOURCE
 extension ChatCollection: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        guard let parentChatController = parentChatController else { fatalError("nil vc") }
-        return parentChatController.responseList.count
+        guard let VCdelegate = VCdelegate else { fatalError("nil vc") }
+        return VCdelegate.responseList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let parentChatController = parentChatController else { fatalError("nil vc") }
-       return parentChatController.responseList[section].1.isBlank ? 1 : 2
+        guard let VCdelegate = VCdelegate else { fatalError("nil vc") }
+       return VCdelegate.responseList[section].1.isBlank ? 1 : 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let parentChatController = parentChatController else { fatalError("nil vc") }
+        guard let VCdelegate = VCdelegate else { fatalError("nil vc") }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MessageCell.identifier, for: indexPath) as! MessageCell
         
         if indexPath.item == 0 {
-            cell.setupCell(text: parentChatController.responseList[indexPath.section].0, author: .user, isSuccess: true)
+            cell.setupCell(text: VCdelegate.responseList[indexPath.section].0, author: .user, isSuccess: true)
         } else {
-            cell.setupCell(text: parentChatController.responseList[indexPath.section].1, author: .assistant, isSuccess: parentChatController.responseList[indexPath.section].2)
+            cell.setupCell(text: VCdelegate.responseList[indexPath.section].1, author: .assistant, isSuccess: VCdelegate.responseList[indexPath.section].2)
         }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let parentChatController = parentChatController else { fatalError("nil vc") }
+        guard let VCdelegate = VCdelegate else { fatalError("nil vc") }
         
         switch kind {
             case UICollectionView.elementKindSectionFooter:
-            if parentChatController.responseList[indexPath.section].2 {
+            if VCdelegate.responseList[indexPath.section].2 {
                 let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: IdicatorFooter.identifier, for: indexPath)
                 
                 return footerView

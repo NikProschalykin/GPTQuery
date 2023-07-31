@@ -50,16 +50,20 @@ final class ChatController: BaseController {
 //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.parentChatController = self
     }
+    
 //MARK: - CONFIGURE
     override func configure() {
         super.configure()
+        footer.sendButton.delegate = self
+        footer.textView.delegate = self
+        collectionView.VCdelegate = self
+        
         title = setupTitle()
-        footer.sendButton.parentChatController = self
         (currChatModel != nil) ? (startLabel.isHidden = true) : (startLabel.isHidden = false)
         addNavBarButton(at: .right, with: nil, with: "clear")
     }
+    
 //MARK: - ADD VIEWS
     override func addViews() {
         super.addViews()
@@ -68,6 +72,7 @@ final class ChatController: BaseController {
         scrollView.addSubview(contentView)
         [footer, collectionView, startLabel].forEach({ contentView.addSubview($0) })
     }
+    
 //MARK: - LAYOUT
     override func layoutViews() {
         super.layoutViews()
@@ -130,32 +135,52 @@ final class ChatController: BaseController {
     }
 }
 
-//MARK: -  Установка заголовка
-extension ChatController {
-    private func setupTitle() -> String {
-        guard let date = currChatModel?.date else { return "Today" }
-        
-        return date.getIntervalFromToCurrentDate(date: date)
+//MARK: - TextViewDelegate
+extension ChatController: UITextViewDelegate {
+    // Ввод текста + увеличение TextView от контента
+    func textViewDidChange(_ textView: UITextView) {
+        writeMessage(textView)
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        hidePlaceHolder(textView)
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+       showPlaceHolder(textView)
     }
 }
 
-//MARK: - Funcs for sendButton
-extension ChatController {
-    func reloadColectionView() {
-        collectionView.reloadData()
-    }
-    
-    func deleteTextInTextView() {
+//MARK: - SendButtonDelegate
+extension ChatController: SendButtonDelegate {
+    func SendButtonTapped() {
+        heightFooter.constant = 45
+        hideKeyboard()
         footer.textView.text = Resorces.Strings.ChatStrings.textViewPlaceHolder
         footer.textView.textColor = UIColor.lightGray
+        startLabel.isHidden = true
     }
     
     func moveToLastCell() {
         collectionView.scrollToLast()
     }
     
-    func hideStartLabel() {
-        startLabel.isHidden = true
+    func reloadCollectionView() {
+       collectionView.reloadData()
+   }
+}
+
+//MARK: - ChatCollectionDelegate
+extension ChatController: ChatCollectionDelegate {
+    // ...
+}
+
+//MARK: -  Установка заголовка
+extension ChatController {
+    private func setupTitle() -> String {
+        guard let date = currChatModel?.date else { return "Today" }
+        
+        return date.getIntervalFromToCurrentDate(date: date)
     }
 }
 
@@ -169,6 +194,7 @@ extension ChatController {
     }
 }
 
+ //MARK: - RegenerateResponce
 extension ChatController {
      func regenerateResponse() {
         self.footer.sendButton.SendMessage(isnewMessage: false)
@@ -216,5 +242,42 @@ extension ChatController {
     }
 }
 
+//MARK: - Custom placeHolder for textView
+extension ChatController {
+    private func hidePlaceHolder(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = Resorces.Colors.titleLabel
+        }
+    }
+    
+    private func showPlaceHolder(_ textView: UITextView) {
+        textView.text.isBlank ? (footer.sendButton.isEnabled = false) : (footer.sendButton.isEnabled = true)
+        if textView.text.isEmpty {
+            textView.text = Resorces.Strings.ChatStrings.textViewPlaceHolder
+            textView.textColor = UIColor.lightGray
+        }
+    }
+}
+
+//MARK: - Ввод текста + увеличение TextView от контента
+extension ChatController {
+    private func writeMessage(_ textView: UITextView) {
+        footer.sendButton.message = textView.text
+        
+        !textView.text.isBlank ? (footer.sendButton.isEnabled = true) : (footer.sendButton.isEnabled = false)
+        
+        switch textView.contentSize.height {
+        case 56..<388:
+            heightFooter.constant = textView.contentSize.height + 8
+        case 388...:
+            heightFooter.constant = 388
+        default:
+            heightFooter.constant = 45
+        }
+        
+        view.layoutIfNeeded()
+    }
+}
 
 
