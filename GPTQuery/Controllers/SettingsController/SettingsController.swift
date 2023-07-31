@@ -1,10 +1,3 @@
-//
-//  SettingsController.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 20.06.2023.
-//
-
 import UIKit
 
 final class SettingsController: BaseController {

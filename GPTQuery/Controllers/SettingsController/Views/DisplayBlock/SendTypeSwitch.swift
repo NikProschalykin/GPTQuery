@@ -1,10 +1,3 @@
-//
-//  SendTypeSwitch.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 20.06.2023.
-//
-
 import UIKit
 
 final class SendTypeSwitch: UISwitch {
@@ -21,7 +14,6 @@ final class SendTypeSwitch: UISwitch {
 extension SendTypeSwitch {
     private func configure() {
         (Settings.shared.messageMode == .stream) ? (isOn = true) : (isOn = false)
-        
         translatesAutoresizingMaskIntoConstraints = false
         addTarget(self, action: #selector(switchAction(sender:)), for: .valueChanged)
     }
@@ -29,7 +21,6 @@ extension SendTypeSwitch {
 
 @objc extension SendTypeSwitch {
     func switchAction(sender: UISwitch) {
-
         let userDefaults = UserDefaults.standard
         
         if sender.isOn {

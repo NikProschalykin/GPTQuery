@@ -1,14 +1,6 @@
-//
-//  BaseUIView.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 15.06.2023.
-//
-
 import UIKit
 
 // MARK: - Присвоение идентификатора к UIView
-
 extension UIView {
     static var identifier: String {
         String(describing: self)
@@ -16,9 +8,7 @@ extension UIView {
 }
 
 // MARK: - Сепаратор
-
 extension UIView {
-    
     enum SeparatorPosition {
         case top
         case bottom
@@ -101,10 +91,8 @@ extension UIView {
 }
 
 // MARK: - Получить родительский ViewController от UIView
-
 extension UIView {
     var parentViewController: UIViewController? {
-        // Starts from next (As we know self is not a UIViewController).
         var parentResponder: UIResponder? = self.next
         while parentResponder != nil {
             if let viewController = parentResponder as? UIViewController {

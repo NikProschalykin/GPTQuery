@@ -1,14 +1,6 @@
-//
-//  SwitchLabel.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 20.06.2023.
-//
-
 import UIKit
 
 final class SwitchLabel: UILabel {
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -18,7 +10,6 @@ final class SwitchLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
 
 extension SwitchLabel {
     private func configure() {

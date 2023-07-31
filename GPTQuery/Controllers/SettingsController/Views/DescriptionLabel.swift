@@ -1,11 +1,5 @@
-//
-//  DescriptionLabel.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 22.06.2023.
-//
-
 import UIKit
+
 final class DescriptionLabel: UILabel {
     convenience init(text: NSMutableAttributedString){
         self.init(frame: .zero)

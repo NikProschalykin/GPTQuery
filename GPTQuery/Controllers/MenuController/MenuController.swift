@@ -1,23 +1,19 @@
-//
-//  MenuController.swift
-//  GPTQuery
-//
-//  Created by Николай Прощалыкин on 17.07.2023.
-//
-
 import UIKit
+import Foundation
 import RealmSwift
 
 final class MenuController: BaseController {
-    //MARK: - PROPERTIES
+    
+    //MARK: - Views
     let tableView = HistoryTableView()
     
+    //MARK: - ChatModel
     var chatsModel: [ChatModel] = []
-    var realmToken: NotificationToken?
-    
     var dateChatsArray: [[ChatModel]] = []
     
+    //MARK: - Realm
     let realmServise = RealmService()
+    var realmToken: NotificationToken?
     
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
@@ -26,9 +22,7 @@ final class MenuController: BaseController {
         realmToken = realmServise.localRealm.observe({ [weak self] _,realm in
             self?.setupData()
         })
-        
     }
-    
     
     //MARK: - ADD VIEWS
     override func addViews() {
@@ -44,24 +38,23 @@ final class MenuController: BaseController {
         addNavBarButton(at: .left, with: UIImage(systemName: "plus"))
     }
     
-    
     //MARK: - LAYOUT
     override func layoutViews() {
         super.layoutViews()
         NSLayoutConstraint.activate([
             //tableView
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 2),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor ,constant: -2),
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 2),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -2),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
 }
+
 //MARK: - Extensions
 
-//MARK: - Открытие экрана настроек на половину 
+//MARK: - Открытие экрана настроек на половину на правую навигационную кнопку
 extension MenuController {
-    
     override func navBarRightButtonHandler() {
         let vc = SettingsController()
         if let presentationController = vc.presentationController as? UISheetPresentationController {
@@ -71,28 +64,27 @@ extension MenuController {
     }
 }
 
+//MARK: - Создание нового чата на левую навигационную кнопку
 extension MenuController {
     override func navBarLeftButtonHandler() {
         let vc = ChatController()
         navigationController?.pushViewController(vc, animated: true)
-        
     }
 }
 
-//MARK: - Подготовка данных из бд
+//MARK: - Подготовка и установка данных из realm
 extension MenuController {
     private func setupData() {
         chatsModel = realmServise.localRealm.objects(ChatModel.self).map({ $0 })
         print("Чатов в моделе: \(chatsModel.count)")
 
-        let sorted = chatsModel.sorted(by: {
+        let chatsModelSorted = chatsModel.sorted(by: {
             return $0.date > $1.date
         })
 
-
         var dateChatsDicts: [String : [ChatModel]] = [:]
 
-        sorted.forEach({
+        chatsModelSorted.forEach({
             let date = $0.date
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd/MM/YY"
@@ -101,7 +93,7 @@ extension MenuController {
         })
 
         dateChatsDicts.keys.forEach({ key in
-            sorted.forEach({ model in
+            chatsModelSorted.forEach({ model in
                 if isSameDates(firstDate: key, secondDate: model.date) {
                     var buf: [ChatModel] = dateChatsDicts[key] ?? []
                     buf.append(model)
@@ -130,5 +122,4 @@ extension MenuController {
         
         return firstDate == dateFormatter.string(from: secondDate) ? true : false
     }
-    
 }

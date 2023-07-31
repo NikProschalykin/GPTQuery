@@ -1,15 +1,6 @@
-//
-//  MessageCell.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 16.06.2023.
-//
-
 import UIKit
 
 final class MessageCell: UICollectionViewCell {
-    
-    
     private let contentCellView = BaseView()
     private let textView = MessageTextView()
     private var author: Resorces.Authors?
@@ -34,26 +25,23 @@ final class MessageCell: UICollectionViewCell {
         
         switch author {
         case .user:
-            backgroundColor = Resorces.Colors.userMessageCell//.systemBlue
-            textView.text = "\(text!)"//[user]\n
+            backgroundColor = Resorces.Colors.userMessageCell
+            textView.text = "\(text!)"
             imageView.image = Resorces.Images.avatarManClearSvg
         
         case .assistant:
-            backgroundColor = Resorces.Colors.aiMessageCell//.systemGreen
-            textView.text = "\(text!)"//[assistant]\n
+            backgroundColor = Resorces.Colors.aiMessageCell
+            textView.text = "\(text!)"
             imageView.image = Resorces.Images.logoSvg
         }
         
        isSuccess ? (self.textView.textColor = Resorces.Colors.messageText) : (self.textView.textColor = Resorces.Colors.errorText)
-        
     }
 }
 
 extension MessageCell {
-    
     private func configure() {
         layer.cornerRadius = 10
-        
         addViews()
         layout()
     }
@@ -63,7 +51,6 @@ extension MessageCell {
     }
     
     private func layout() {
-        
         NSLayoutConstraint.activate([
             //imageView
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 2),
@@ -79,7 +66,6 @@ extension MessageCell {
             
         ])
     }
-    
 }
 
 
@@ -95,7 +81,6 @@ extension MessageCell {
              fatalError("init(coder:) has not been implemented")
          }
          
-        
          private func configure() {
             contentMode = .scaleAspectFit
             translatesAutoresizingMaskIntoConstraints = false

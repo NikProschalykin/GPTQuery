@@ -1,10 +1,3 @@
-//
-//  CopyKeyButton.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 22.06.2023.
-//
-
 import UIKit
 
 final class CopyButton: UIButton {
@@ -13,13 +6,12 @@ final class CopyButton: UIButton {
         self.init(frame: .zero)
         self.textToCopy = text 
         configure()
-        
     }
 }
+
 extension CopyButton {
     private func configure(){
         setImage(UIImage(systemName: "doc.on.doc"), for: .normal)
-        //setTitle("Copy", for: .normal)
         setTitleColor(.systemBlue, for: .normal)
         translatesAutoresizingMaskIntoConstraints = false
         makeSystem(self)
@@ -32,8 +24,8 @@ extension CopyButton {
             self.setImage(UIImage(systemName: "checkmark"), for: .normal)
             self.tintColor = .systemGreen
         })
+        
         print("text copied: \(textToCopy ?? "")")
-       
     }
 }
 

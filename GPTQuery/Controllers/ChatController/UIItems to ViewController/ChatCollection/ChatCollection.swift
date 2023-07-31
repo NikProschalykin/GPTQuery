@@ -1,14 +1,6 @@
-//
-//  ChatCollection.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 16.06.2023.
-//
-
 import UIKit
 
 final class ChatCollection: UICollectionView {
-    
     weak var parentChatController: ChatController?
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
@@ -43,11 +35,8 @@ final class ChatCollection: UICollectionView {
         }
         
         let height = calculateTextViewHeight(text: text, font: Resorces.Font.helveticaRegular(with: 17), width: UIScreen.main.bounds.width - 80) + 4
-
-        
         let width = UIScreen.main.bounds.width - 16
         
-        print("Высота ячейки: \(height)", text)
         switch indexPath.item {
         case 0:
             return CGSize(width: width, height: height)
@@ -62,7 +51,6 @@ final class ChatCollection: UICollectionView {
             textView.font = font
             textView.text = text
             textView.sizeToFit()
-        
         return textView.frame.height < 54 ? 54 : textView.frame.height
     }
     
@@ -75,10 +63,8 @@ final class ChatCollection: UICollectionView {
     }
 }
 
-
 //MARK: - DATA SOURCE
 extension ChatCollection: UICollectionViewDataSource {
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         guard let parentChatController = parentChatController else { fatalError("nil vc") }
         return parentChatController.responseList.count
@@ -124,7 +110,6 @@ extension ChatCollection: UICollectionViewDataSource {
 
 //MARK: - Delegate Flow Layout
 extension ChatCollection: UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     }

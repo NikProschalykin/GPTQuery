@@ -1,11 +1,5 @@
-//
-//  ApiKeyBlock.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 21.06.2023.
-//
-
 import UIKit
+
 final class ApiKeyBlock: BaseView {
     
     private let keyLabel = KeyLabel()
@@ -18,19 +12,19 @@ extension ApiKeyBlock {
     override func configure() {
         super.configure()
         setupButton.label = keyLabel
-        
         backgroundColor = Resorces.Colors.settingsBlocksBackground
         translatesAutoresizingMaskIntoConstraints = false
         layer.cornerRadius = 10
     }
+    
     override func addViews() {
         super.addViews()
         [stateKeyLabel, keyLabel, setupButton, copyButton].forEach({ self.addSubview($0) })
     }
+    
     override func layoutViews() {
         super.layoutViews()
         NSLayoutConstraint.activate([
-            
             //stateKeyLabel
             stateKeyLabel.topAnchor.constraint(equalTo: topAnchor,constant: 8),
             stateKeyLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 8),
@@ -45,7 +39,7 @@ extension ApiKeyBlock {
             setupButton.bottomAnchor.constraint(equalTo: bottomAnchor,constant: -8),
             
             //copyButton
-            copyButton.trailingAnchor.constraint(equalTo: keyLabel.trailingAnchor),
+            copyButton.trailingAnchor.constraint(equalTo: trailingAnchor),
             copyButton.bottomAnchor.constraint(equalTo: bottomAnchor,constant: -8),
         ])
     }

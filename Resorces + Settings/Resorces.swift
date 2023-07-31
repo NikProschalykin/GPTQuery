@@ -1,10 +1,3 @@
-//
-//  Resorces.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 15.06.2023.
-//
-
 import UIKit
 
 enum Resorces {
@@ -22,7 +15,7 @@ enum Resorces {
     enum Colors {
         static var active = UIColor(hexString: "#437BFE")
         static var inactive = UIColor(hexString: "#929DA5")
-        static var errorText = UIColor(hexString: "#FF0D00") //#A60800
+        static var errorText = UIColor(hexString: "#FF0D00")
         static var messageText = UIColor.black
         
         static var background = UIColor.systemBackground
@@ -100,10 +93,8 @@ enum Resorces {
         }
         
         enum ChatStrings {
-            
             static let startMessage = "Hi, I'm your chatGPT assistant. Let's start chatting! Enter your first message"
             static let textViewPlaceHolder = "Message"
-            
         }
     }
 }

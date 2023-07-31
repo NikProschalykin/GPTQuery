@@ -1,10 +1,3 @@
-//
-//  HistoryTableView.swift
-//  GPTQuery
-//
-//  Created by Николай Прощалыкин on 17.07.2023.
-//
-
 import UIKit
 
 final class HistoryTableView: UITableView {
@@ -20,19 +13,16 @@ final class HistoryTableView: UITableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-   
-    
     private func configure() {
+        separatorInset = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
         translatesAutoresizingMaskIntoConstraints = false
         delegate = self
         dataSource = self
         register(ChatCell.self, forCellReuseIdentifier: ChatCell.identifier)
-
     }
 }
 
 extension HistoryTableView: UITableViewDelegate, UITableViewDataSource {
-    
 //MARK: - DataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -45,7 +35,6 @@ extension HistoryTableView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChatCell.identifier, for: indexPath) as! ChatCell
         
-        
         cell.setupCell(model: dateChatsArray[indexPath.section][indexPath.row])
         return cell
     }
@@ -53,11 +42,7 @@ extension HistoryTableView: UITableViewDelegate, UITableViewDataSource {
 //MARK: - Delegate
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let date = dateChatsArray[section].first?.date else { return "unknown date" }
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/YY"
-        
-        return dateFormatter.string(from: date)
+        return date.getIntervalFromToCurrentDate(date: date)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -67,6 +52,7 @@ extension HistoryTableView: UITableViewDelegate, UITableViewDataSource {
         
         parentViewController?.navigationController?.pushViewController(vc, animated: true)
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         80
     }

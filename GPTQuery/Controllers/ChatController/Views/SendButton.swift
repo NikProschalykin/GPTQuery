@@ -1,14 +1,6 @@
-//
-//  SendButton.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 15.06.2023.
-//
-
 import UIKit
 
 final class SendButton: UIButton {
-    
     let realmService = RealmService()
     weak public var parentChatController: ChatController?
     private var message: String?
@@ -40,7 +32,6 @@ final class SendButton: UIButton {
         parentChatController?.hideKeyboard()
         parentChatController?.deleteTextInTextView()
         parentChatController?.hideStartLabel()
-            
         SendMessage()
         self.isEnabled = false
     }
@@ -62,7 +53,6 @@ extension SendButton: UITextViewDelegate {
             parentChatController?.heightFooter.constant = 45
         }
         
-        //print(textView.contentSize.height)
         parentChatController?.view.layoutIfNeeded()
     }
 }
@@ -85,9 +75,8 @@ extension SendButton {
     }
 }
 
-//MARK: - SEND MESSAGE TO Server
+//MARK: - SEND MESSAGE TO CHATGPT API
 extension SendButton {
-        
     func SendMessage(isnewMessage: Bool = true) {
         guard let parentChatController = parentChatController else { fatalError("nil vc") }
         
@@ -117,30 +106,13 @@ extension SendButton {
                         parentChatController.reloadColectionView()
                     }
                 }
+                
                 message = ""
             } catch {
                 parentChatController.responseList[parentChatController.responseList.count-1] = (message!,error.localizedDescription, false)
                 parentChatController.reloadColectionView()
                 parentChatController.moveToLastCell()
             }
-//            guard let chat = parentChatController.currChatModel else { return }
-//
-//            try? realmService.localRealm.write {
-//
-//                chat.messages.removeAll()
-//                for tuple in parentChatController.responseList {
-//                    let message = ChatMessage()
-//                    message.request = tuple.0
-//                    message.response = tuple.1
-//                    message.isSuccess = tuple.2
-//                    chat.messages.append(message)
-//                }
-//
-//                chat.date = Date()
-//                realmService.localRealm.add(chat,update: .all)
-//
-//               //realmService.localRealm.deleteAll()
-//            }
         }
     }
 }

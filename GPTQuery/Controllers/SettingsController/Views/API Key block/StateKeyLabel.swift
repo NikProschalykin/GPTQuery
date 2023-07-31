@@ -1,10 +1,3 @@
-//
-//  StateKeyLabel.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 20.06.2023.
-//
-
 import UIKit
 
 final class StateKeyLabel: UILabel {
@@ -17,7 +10,6 @@ final class StateKeyLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
 
 extension StateKeyLabel {
     private func configure() {

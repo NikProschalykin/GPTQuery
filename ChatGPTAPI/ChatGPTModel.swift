@@ -1,12 +1,4 @@
-//
-//  ChatGPTModel.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 14.06.2023.
-//
-
 import Foundation
-
 
 //MARK: -  chatGPT-3.5-turbo-model
 

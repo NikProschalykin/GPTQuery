@@ -1,10 +1,3 @@
-//
-//  MessageTextView.swift
-//  GhatGPT
-//
-//  Created by Николай Прощалыкин on 16.06.2023.
-//
-
 import UIKit
 
 final class InputMessageTextView: UITextView {
