@@ -3,7 +3,7 @@ import UIKit
 final class SetupKeyButton: UIButton {
     
    weak var label: UILabel?
-   weak var vc: SettingsController?
+   weak var delegate: SetupKeyButtonDelegate?
    var isCorrectInputKey = true
     
     override init(frame: CGRect) {
@@ -26,7 +26,7 @@ extension SetupKeyButton {
     }
     
     private func wrongKey() {
-        vc?.apiKeyBlock.shake()
+        delegate?.apiKeyBlock.shake()
         isCorrectInputKey = false
         setupKey()
     }
@@ -62,7 +62,7 @@ extension SetupKeyButton {
         alertController.addAction(okAction)
         alertController.addAction(cancelAction)
         
-        vc?.present(alertController,animated: true)
+        delegate?.present(alertController,animated: true)
     }
 }
 

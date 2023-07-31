@@ -17,7 +17,6 @@ extension MainFooter {
     override func configure() {
         super.configure()
         backgroundColor = .systemGray5
-        textView.delegate = sendButton.self
         addSeparator(at: .top, color: Resorces.Colors.separator,weight: 1)
     }
     

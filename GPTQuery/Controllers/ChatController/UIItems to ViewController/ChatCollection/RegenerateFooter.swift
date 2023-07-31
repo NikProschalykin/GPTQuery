@@ -3,7 +3,6 @@ import UIKit
 //MARK: - regenerate responce button
 final class RegenerateFooter: UICollectionReusableView {
     let button = UIButton(type: .system)
-    let sendButton = SendButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

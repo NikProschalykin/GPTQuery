@@ -23,7 +23,7 @@ final class SettingsController: BaseController {
     //MARK: - CONFIGURE
     override func configure() {
         super.configure()
-        apiKeyBlock.setupButton.vc = self
+        apiKeyBlock.setupButton.delegate = self
     }
     
     //MARK: - LAYOUT
@@ -59,6 +59,11 @@ final class SettingsController: BaseController {
             apiKeyBlockDescriptionLabel.trailingAnchor.constraint(equalTo: apiKeyBlock.trailingAnchor,constant: -16),
         ])
     }
+}
+
+//MARK: - SetupButtonDelegate
+extension SettingsController: SetupKeyButtonDelegate {
+   // ...
 }
 
 //MARK: - TitleLabel
