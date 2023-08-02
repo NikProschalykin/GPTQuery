@@ -8,7 +8,7 @@ enum Mode: Int {
 final class Settings {
     static let shared = Settings()
     
-    var messageMode: Mode = Mode(rawValue: UserDefaults.standard.integer(forKey: "messageMode")) ?? .full
+    var messageMode: Mode = Mode(rawValue: UserDefaults.standard.integer(forKey: "messageMode")) ?? .stream
     
     var apiKey = setupToken(for: "admin") {
         willSet { chatGptApi = ChatAPI(apiKey: newValue) }

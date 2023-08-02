@@ -24,8 +24,6 @@ extension CopyButton {
             self.setImage(UIImage(systemName: "checkmark"), for: .normal)
             self.tintColor = .systemGreen
         })
-        
-        print("text copied: \(textToCopy ?? "")")
     }
 }
 

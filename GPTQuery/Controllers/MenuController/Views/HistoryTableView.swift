@@ -3,6 +3,7 @@ import UIKit
 final class HistoryTableView: UITableView {
     
     var dateChatsArray: [[ChatModel]] = []
+    let realmServise = RealmService()
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: .grouped)
@@ -24,7 +25,6 @@ final class HistoryTableView: UITableView {
 
 extension HistoryTableView: UITableViewDelegate, UITableViewDataSource {
 //MARK: - DataSource
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         dateChatsArray[section].count
     }
@@ -55,5 +55,26 @@ extension HistoryTableView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         80
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .normal,
+                                        title: "Delete") { [weak self] (action, view, completionHandler) in self?.handleDeleteChat(at: indexPath)
+                                            completionHandler(true)
+        }
+        action.backgroundColor = .systemRed
+        return UISwipeActionsConfiguration(actions: [action])
+    }
+}
+
+//MARK: - Swipe handlers
+extension HistoryTableView {
+    private func handleDeleteChat(at indexPath: IndexPath) {
+        try? realmServise.localRealm.write {
+            realmServise.localRealm.delete(dateChatsArray[indexPath.section][indexPath.row.self])
+        }
+        let range = NSMakeRange(0, self.numberOfSections)
+        let indexSet = NSIndexSet(indexesIn: range)
+        self.reloadSections(indexSet as IndexSet, with: UITableView.RowAnimation.automatic)
     }
 }

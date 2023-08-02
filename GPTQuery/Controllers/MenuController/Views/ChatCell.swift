@@ -52,7 +52,6 @@ final class ChatCell: UITableViewCell {
 
 extension ChatCell {
     private func configure() {
-        layer.cornerRadius = 50
         addViews()
         layout()
     }

@@ -76,7 +76,6 @@ extension MenuController {
 extension MenuController {
     private func setupData() {
         chatsModel = realmServise.localRealm.objects(ChatModel.self).map({ $0 })
-        print("Чатов в моделе: \(chatsModel.count)")
 
         let chatsModelSorted = chatsModel.sorted(by: {
             return $0.date > $1.date

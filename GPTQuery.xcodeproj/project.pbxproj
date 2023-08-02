@@ -21,6 +21,8 @@
 		7E5E6A932A78330C0054B04D /* SendButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5E6A922A78330C0054B04D /* SendButtonDelegate.swift */; };
 		7E5E6A962A7844880054B04D /* ChatCollectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5E6A952A7844880054B04D /* ChatCollectionDelegate.swift */; };
 		7E5E6A992A7847560054B04D /* SetupKeyButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5E6A982A7847560054B04D /* SetupKeyButtonDelegate.swift */; };
+		7E5E6A9B2A7916C50054B04D /* ChatBlockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5E6A9A2A7916C50054B04D /* ChatBlockModel.swift */; };
+		7E5E6A9D2A7950110054B04D /* UIScrollView + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5E6A9C2A7950110054B04D /* UIScrollView + ext.swift */; };
 		7E9A02CF2A41DAA300BA49FD /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02CE2A41DAA300BA49FD /* SettingsController.swift */; };
 		7E9A02D22A41DC7600BA49FD /* SendTypeSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02D12A41DC7600BA49FD /* SendTypeSwitch.swift */; };
 		7E9A02D42A41DD1A00BA49FD /* SwitchLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A02D32A41DD1A00BA49FD /* SwitchLabel.swift */; };
@@ -75,6 +77,8 @@
 		7E5E6A922A78330C0054B04D /* SendButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendButtonDelegate.swift; sourceTree = "<group>"; };
 		7E5E6A952A7844880054B04D /* ChatCollectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCollectionDelegate.swift; sourceTree = "<group>"; };
 		7E5E6A982A7847560054B04D /* SetupKeyButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupKeyButtonDelegate.swift; sourceTree = "<group>"; };
+		7E5E6A9A2A7916C50054B04D /* ChatBlockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBlockModel.swift; sourceTree = "<group>"; };
+		7E5E6A9C2A7950110054B04D /* UIScrollView + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView + ext.swift"; sourceTree = "<group>"; };
 		7E9A02CE2A41DAA300BA49FD /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		7E9A02D12A41DC7600BA49FD /* SendTypeSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTypeSwitch.swift; sourceTree = "<group>"; };
 		7E9A02D32A41DD1A00BA49FD /* SwitchLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchLabel.swift; sourceTree = "<group>"; };
@@ -170,6 +174,14 @@
 				7E5E6A982A7847560054B04D /* SetupKeyButtonDelegate.swift */,
 			);
 			path = DelegateProtocols;
+			sourceTree = "<group>";
+		};
+		7E5E6A9E2A795AF20054B04D /* ChatBlockModel */ = {
+			isa = PBXGroup;
+			children = (
+				7E5E6A9A2A7916C50054B04D /* ChatBlockModel.swift */,
+			);
+			path = ChatBlockModel;
 			sourceTree = "<group>";
 		};
 		7E9A02D02A41DAA700BA49FD /* SettingsController */ = {
@@ -281,8 +293,9 @@
 		7ED0E6752A3B1E3D00F27D83 /* ChatController */ = {
 			isa = PBXGroup;
 			children = (
-				7E5E6A942A7844610054B04D /* DelegateProtocols */,
 				7E3A7A8E2A39C9BA00FA7908 /* ChatController.swift */,
+				7E5E6A9E2A795AF20054B04D /* ChatBlockModel */,
+				7E5E6A942A7844610054B04D /* DelegateProtocols */,
 				7ED0E6762A3B203000F27D83 /* UIItems to ViewController */,
 				7ED0E6932A3C48E200F27D83 /* Views */,
 			);
@@ -305,6 +318,7 @@
 				7ED0E6772A3B20AC00F27D83 /* UIView + ext.swift */,
 				7ED0E67B2A3B226300F27D83 /* UIColor + ext.swift */,
 				7E43EFF62A4081E700978724 /* UICollectionView + ext.swift */,
+				7E5E6A9C2A7950110054B04D /* UIScrollView + ext.swift */,
 				7E43EFF82A40A38100978724 /* String + ext.swift */,
 				7E5E6A902A757DE50054B04D /* Date + ext.swift */,
 			);
@@ -448,6 +462,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E3A7A8F2A39C9BA00FA7908 /* ChatController.swift in Sources */,
+				7E5E6A9B2A7916C50054B04D /* ChatBlockModel.swift in Sources */,
 				7ED0E6A02A3C6E8800F27D83 /* ChatCollectionLayout.swift in Sources */,
 				7E9A7B192A5E9CE8002016C3 /* RegenerateFooter.swift in Sources */,
 				7E9A7B212A656A59002016C3 /* ChatCell.swift in Sources */,
@@ -490,6 +505,7 @@
 				7E5E6A912A757DE50054B04D /* Date + ext.swift in Sources */,
 				7ED0E6992A3C5C9300F27D83 /* MessageCell.swift in Sources */,
 				7E9A02CF2A41DAA300BA49FD /* SettingsController.swift in Sources */,
+				7E5E6A9D2A7950110054B04D /* UIScrollView + ext.swift in Sources */,
 				7ED0E67C2A3B226300F27D83 /* UIColor + ext.swift in Sources */,
 				7ED0E6922A3B4FFC00F27D83 /* MainFooter.swift in Sources */,
 			);

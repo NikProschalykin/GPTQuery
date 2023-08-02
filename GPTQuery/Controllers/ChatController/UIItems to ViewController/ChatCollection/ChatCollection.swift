@@ -29,8 +29,8 @@ final class ChatCollection: UICollectionView {
         guard let VCdelegate = VCdelegate else { fatalError("nil vc") }
         var text: String = ""
         switch indexPath.item {
-        case 0: text += VCdelegate.responseList[indexPath.section].0
-        case 1: text += VCdelegate.responseList[indexPath.section].1
+        case 0: text += VCdelegate.responseList[indexPath.section].request
+        case 1: text += VCdelegate.responseList[indexPath.section].responce
         default: break
         }
         
@@ -57,8 +57,8 @@ final class ChatCollection: UICollectionView {
     //MARK: - Расчет размера футера
     private func calculateFooterSize(to section: Int) -> CGSize {
         guard let VCdelegate = VCdelegate else { fatalError("nil vc") }
-        if VCdelegate.responseList[section].1.isBlank { return CGSize(width: 50, height: 50) }
-        if !VCdelegate.responseList[section].2 { return CGSize(width: 50, height: 50) }
+        if VCdelegate.responseList[section].responce.isBlank { return CGSize(width: 50, height: 50) }
+        if !VCdelegate.responseList[section].isSucces { return CGSize(width: 50, height: 50) }
         return .zero
     }
 }
@@ -72,7 +72,7 @@ extension ChatCollection: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let VCdelegate = VCdelegate else { fatalError("nil vc") }
-       return VCdelegate.responseList[section].1.isBlank ? 1 : 2
+       return VCdelegate.responseList[section].responce.isBlank ? 1 : 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -80,9 +80,9 @@ extension ChatCollection: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MessageCell.identifier, for: indexPath) as! MessageCell
         
         if indexPath.item == 0 {
-            cell.setupCell(text: VCdelegate.responseList[indexPath.section].0, author: .user, isSuccess: true)
+            cell.setupCell(text: VCdelegate.responseList[indexPath.section].request, author: .user, isSuccess: true)
         } else {
-            cell.setupCell(text: VCdelegate.responseList[indexPath.section].1, author: .assistant, isSuccess: VCdelegate.responseList[indexPath.section].2)
+            cell.setupCell(text: VCdelegate.responseList[indexPath.section].responce, author: .assistant, isSuccess: VCdelegate.responseList[indexPath.section].isSucces)
         }
         
         return cell
@@ -93,13 +93,14 @@ extension ChatCollection: UICollectionViewDataSource {
         
         switch kind {
             case UICollectionView.elementKindSectionFooter:
-            if VCdelegate.responseList[indexPath.section].2 {
+            if VCdelegate.responseList[indexPath.section].isSucces {
                 let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: IdicatorFooter.identifier, for: indexPath)
                 
                 return footerView
             } else {
-                let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RegenerateFooter.identifier, for: indexPath)
+                let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RegenerateFooter.identifier, for: indexPath) as! RegenerateFooter
                 
+                footerView.indexPath = indexPath
                 return footerView
             }
             default:

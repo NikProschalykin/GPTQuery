@@ -8,13 +8,11 @@ protocol KeyChainManagerProtocol {
     static func deleteToken(token: Data, account: String) throws -> String
 }
 
-
 //MARK: - Error enum
 enum KeyChainError: Error {
     case duplicateItem
     case unknown(status: OSStatus)
 }
-
 
 //MARK: - class KeyChainManager
 final class KeyChainManager: KeyChainManagerProtocol {
