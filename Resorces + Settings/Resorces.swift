@@ -51,7 +51,7 @@ enum Resorces {
         enum SettinsStrings {
             
             enum SettingsDescriptionsRawStrings {
-                static let streamModeBlock = "Show streaming response from ChatGPT.\n(may not work correctly)."
+                static let streamModeBlock = "Show streaming response from ChatGPT.\n(switch off for higher speed)."
                 
                 static let apiKeyBlock = "Click on the key field to see or hide it. Set the new key value by pressing the SETUP API Key button. Copy key by copy button."
                 
@@ -65,13 +65,13 @@ enum Resorces {
                     
                     let rangeNormalText = NSString(string: Resorces.Strings.SettinsStrings.SettingsDescriptionsRawStrings.streamModeBlock).range(of: "Show streaming response from ChatGPT.\n",options: String.CompareOptions.caseInsensitive)
                     
-                    let rangeRedText = NSString(string: Resorces.Strings.SettinsStrings.SettingsDescriptionsRawStrings.streamModeBlock).range(of: "(may not work correctly)",options: String.CompareOptions.caseInsensitive)
+                    let rangeRedText = NSString(string: Resorces.Strings.SettinsStrings.SettingsDescriptionsRawStrings.streamModeBlock).range(of: "(switch off for higher speed)",options: String.CompareOptions.caseInsensitive)
                     
                     text.addAttributes([.foregroundColor: Resorces.Colors.titleSecondaryLabel,
                                         .font: Resorces.Font.helveticaRegular(with: 14)],
                                        range: rangeNormalText)
                     
-                    text.addAttributes([.foregroundColor: UIColor.systemRed,
+                    text.addAttributes([.foregroundColor: UIColor.systemOrange,
                                         .font: Resorces.Font.helveticaRegular(with: 14)],
                                        range: rangeRedText)
                 

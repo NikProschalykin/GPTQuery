@@ -1,17 +1,16 @@
 import UIKit
 
-// MARK: - VIEWCONTROLLER
 final class ChatController: BaseController {
     
-    //MARK: - realm properties
+//MARK: - realm properties
     var realmServise = RealmService()
     var currChatModel: ChatModel?
     
-    //MARK: - Layout properties
+//MARK: - Layout properties
     var heightFooter = NSLayoutConstraint()
     
-    //MARK: - PROPERTIES
-    var responseList = [(String,String,Bool)]()
+//MARK: - PROPERTIES
+    var responseList = [ChatBlock]()
     
     private let notificationCenter = NotificationCenter.default
     
@@ -22,7 +21,7 @@ final class ChatController: BaseController {
     private let layout = ChatCollectionLayout()
     private lazy var collectionView = ChatCollection(frame: .zero, collectionViewLayout: layout)
     
-    //MARK: - GESTURES
+//MARK: - GESTURES
     private lazy var tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
     
 //MARK: - ViewWillAppear
@@ -30,8 +29,18 @@ final class ChatController: BaseController {
         super.viewWillAppear(animated)
         notificationCenter.addObserver(self, selector: #selector(keyBoardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(keyBoardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        setupRealmToController()
+    }
+    
+//MARK: - ViewWillLayoutSubviews
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        moveToLastCell(animated: false)
+    }
+    
+//MARK: - ViewDidAppear
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        moveToLastCell(animated: true)
     }
     
 //MARK: - ViewWillDissappear
@@ -50,6 +59,7 @@ final class ChatController: BaseController {
 //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupRealmToController()
     }
     
 //MARK: - CONFIGURE
@@ -161,8 +171,8 @@ extension ChatController: SendButtonDelegate {
         startLabel.isHidden = true
     }
     
-    func moveToLastCell() {
-        collectionView.scrollToLast()
+    func moveToLastCell(animated: Bool = false) {
+        collectionView.scrollToBottom(animated: animated)
     }
     
     func reloadCollectionView() {
@@ -196,8 +206,8 @@ extension ChatController {
 
  //MARK: - RegenerateResponce
 extension ChatController {
-     func regenerateResponse() {
-        self.footer.sendButton.SendMessage(isnewMessage: false)
+    func regenerateResponse(at section: Int) {
+        self.footer.sendButton.regenerateResponce(at: section)
     }
 }
 
@@ -206,9 +216,10 @@ extension ChatController {
     private func setupRealmToController() {
         if let currChatModel = currChatModel {
             for message in currChatModel.messages {
-                responseList.append((message.request,
-                                     message.response,
-                                     message.isSuccess))
+                let chatBlock = ChatBlock(request: message.request,
+                                          responce: message.response,
+                                          isSucces: message.isSuccess)
+                responseList.append(chatBlock)
             }
         } else {
             currChatModel = ChatModel()
@@ -223,14 +234,14 @@ extension ChatController {
         try? realmServise.localRealm.write {
             currChatModel.messages.removeAll()
             
-            for tuple in responseList {
+            for chatBlock in responseList {
                 let message = ChatMessage()
-                message.request = tuple.0
-                message.response = tuple.1
-                message.isSuccess = tuple.2
+                message.request = chatBlock.request
+                message.response = chatBlock.responce
+                message.isSuccess = chatBlock.isSucces
                 currChatModel.messages.append(message)
             }
-    
+            
             if isChatChanges { currChatModel.date = Date() }
             realmServise.localRealm.add(currChatModel,update: .all)
            

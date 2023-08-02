@@ -48,7 +48,6 @@ extension SetupKeyButton {
                 do {
                    let status = try KeyChainManager.updateToken(token: key.data(using: .utf8) ?? Data(), for: "admin")
                     Settings.shared.apiKey = Settings.setupToken(for: "admin")
-                    print(status)
                 } catch { print(error) }
             } else {
                 self.wrongKey()

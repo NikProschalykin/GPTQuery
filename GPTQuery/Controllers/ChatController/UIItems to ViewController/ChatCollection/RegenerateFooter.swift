@@ -3,6 +3,7 @@ import UIKit
 //MARK: - regenerate responce button
 final class RegenerateFooter: UICollectionReusableView {
     let button = UIButton(type: .system)
+    var indexPath: IndexPath?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,7 +42,7 @@ extension RegenerateFooter {
 @objc extension RegenerateFooter {
     func buttonAction() {
         let vc = self.parentViewController as? ChatController
-        vc?.regenerateResponse()
+        vc?.regenerateResponse(at: indexPath!.section)
     }
 }
 
